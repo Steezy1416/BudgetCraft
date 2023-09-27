@@ -1,15 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import Root from './components/Root';
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/'>
+    <Route path='/' element={<Root/>}>
       <Route index/>
       <Route path='history'/>
       <Route path='expenses'/>
-      <Route path='deposit-withdrawal'/>
+      <Route path='transaction'/>
     </Route>
   )
 )
