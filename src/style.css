@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap");
+
+/*start of css reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+/* end of css reset */
+
+/* start of root section */
+.main-nav-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.nav-btn {
+  display: grid;
+  background: transparent;
+  border: none;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 0.5rem;
+  z-index: 1;
+}
+
+.openNav .nav-btn-circle:nth-child(even) {
+  visibility: hidden;
+}
+
+.nav-btn-circle {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.main-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: flex-start;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 45%;
+  background-color: white;
+  padding: 6rem 0.5rem 0.5rem 0.5rem;
+  transform: translateX(100%);
+  transition: 300ms transform;
+  border-radius: 15px 0 0 15px;
+  background-image: url("./assets/layered-waves-haikei.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center bottom;
+}
+
+.open-nav {
+  transform: translateX(0);
+}
+
+.activeOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 17, 17, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+.navLink {
+  font-size: 1.2rem;
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  border-radius: 5px;
+  color: black;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+}
+
+.main-navigation .active {
+  color: white;
+  background-color: #1e3454;
+}
+
+/* end of root section */
