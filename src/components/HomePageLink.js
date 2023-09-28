@@ -1,20 +1,30 @@
 import { Link } from "react-router-dom";
 
-const HomePageLink = ({ title, ammount = "", isLink }) => {
+const HomePageLink = ({ title, ammount = "", isLink, className }) => {
   return isLink ? (
-    <Link to={title.toLowerCase()}>
-      <p>{title}</p>
-      <div>
-        {ammount && <p>{ammount}</p>}
-        <span>
-          <i class="fa-solid fa-arrow-right"></i>
+    <Link className={`${className} homePageLink`} to={title.toLowerCase()}>
+      <p className="homeLinkTitle">{title}</p>
+      {
+        ammount
+        ?
+        <div className="homeLinkAmmountSubContainer">
+        <p className="homeLinkAmmount">{ammount}</p>
+        <span className="homeLinkBtn">
+          <i class="fa-solid fa-arrow-right homeLinkIcon"></i>
         </span>
       </div>
+      :
+      <div className="homeLinkButtonSubContainer">
+        <span className="homeLinkBtn">
+          <i class="fa-solid fa-arrow-right homeLinkIcon"></i>
+        </span>
+      </div>
+      }
     </Link>
   ) : (
-    <div>
-      <p>{title}</p>
-      <p>{ammount}</p>
+    <div className={`${className} homePageLink`}>
+      <p className="homeLinkTitle">{title}</p>
+      <p className="homeLinkAmmount">{ammount}</p>
     </div>
   );
 };

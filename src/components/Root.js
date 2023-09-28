@@ -4,16 +4,21 @@ import { NavLink, Outlet } from "react-router-dom";
 const Root = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen)
+    document.body.classList.toggle("no-scroll")
+  }
+
   return (
     <>
       <header className="main-nav-header">
         <div
           className={`overlay ${isNavOpen || "hiddenOverlay"}`}
-          onClick={() => setIsNavOpen(!isNavOpen)}
+          onClick={toggleNav}
         ></div>
 
         <button
-          onClick={() => setIsNavOpen(!isNavOpen)}
+          onClick={toggleNav}
           className={`${isNavOpen ? "openNav" : "closedNav"} nav-btn`}
         >
           <span className="nav-btn-circle"></span>
