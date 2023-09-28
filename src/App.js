@@ -1,12 +1,13 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import Root from './components/Root';
 import "./style.css"
+import HomePage from './pages/HomePage';
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Root/>}>
-      <Route index/>
+      <Route index element={<HomePage/>}/>
       <Route path='history'/>
       <Route path='expenses'/>
       <Route path='transaction'/>

@@ -8,7 +8,7 @@ const Root = () => {
     <>
       <header className="main-nav-header">
         <div
-          className={isNavOpen && "activeOverlay"}
+          className={`overlay ${isNavOpen || "hiddenOverlay"}`}
           onClick={() => setIsNavOpen(!isNavOpen)}
         ></div>
 
