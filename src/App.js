@@ -2,6 +2,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Root from './components/Root';
 import "./style.css"
 import HomePage from './pages/HomePage';
+import TransactionPage from './pages/TransactionPage';
 
 
 const router = createBrowserRouter(
@@ -10,7 +11,7 @@ const router = createBrowserRouter(
       <Route index element={<HomePage/>}/>
       <Route path='history'/>
       <Route path='expenses'/>
-      <Route path='transaction'/>
+      <Route path='transaction' element={<TransactionPage/>}/>
     </Route>
   )
 )
