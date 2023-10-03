@@ -10,13 +10,13 @@ const HomePageLink = ({ title, ammount = "", isLink, className }) => {
         <div className="homeLinkAmmountSubContainer">
         <p className="homeLinkAmmount">{ammount}</p>
         <span className="homeLinkBtn">
-          <i class="fa-solid fa-arrow-right homeLinkIcon"></i>
+          <i className="fa-solid fa-arrow-right homeLinkIcon"></i>
         </span>
       </div>
       :
       <div className="homeLinkButtonSubContainer">
         <span className="homeLinkBtn">
-          <i class="fa-solid fa-arrow-right homeLinkIcon"></i>
+          <i className="fa-solid fa-arrow-right homeLinkIcon"></i>
         </span>
       </div>
       }

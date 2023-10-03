@@ -66,7 +66,17 @@ body {
   padding: 1.5rem;
   position: sticky;
   top: 0;
+  background-color: rgba(236, 239, 241, .8);
+  /* backdrop-filter:  blur(20px); */
   z-index: 9999;
+}
+
+.main-nav-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  backdrop-filter:  blur(20px);
 }
 
 .nav-btn {
@@ -328,3 +338,67 @@ main {
 }
 
 /* end of root section */
+
+
+
+
+/* start of transaction page */
+  .transactionPageContainer {
+    padding: 0 1.5rem;
+    font-family: "Rubik", sans-serif;
+  }
+
+  .transactionPageForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .form-section {
+    background-color: #333;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px 25px 5px 25px;
+    padding: 1rem;
+    gap: .5rem;
+  }
+
+  .radio-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem;
+    border-radius: 5px;
+    background-color: #D1D9DD;
+    color: black;
+  }
+
+  input[type="radio"] {
+    opacity: 0;
+  }
+
+  label:has(input[type="radio"]:checked) {
+    background-color: #934DFC;
+    color: white;
+    border: 1px solid white;
+  }
+
+  .radio-circle {
+    width: 1.5rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: black;
+    background-color: #808B90;
+  }
+
+  .active-radio-circle {
+    background-color: #FFC727;
+  }
+
+  .form-error-msg {
+    color: #d62828;
+  }
+
+/* end of transaction page */
