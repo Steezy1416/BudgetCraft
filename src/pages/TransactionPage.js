@@ -1,11 +1,13 @@
 import { useReducer } from "react";
 import { initialForm, formReducer } from "../reducers/transactionPageReducer";
+import OptionSelector from "../components/OptionSelector";
 
 const TransactionPage = () => {
   const [form, dispatch] = useReducer(formReducer, initialForm);
 
+  const { transactionType, categoryType, ammount, memo, errors } = form;
+
   const hanleTransactionTypeChange = (e) => {
-    console.log(e.target.value)
     dispatch({
       type: "selectTransactionType",
       value: e.target.value,
@@ -13,7 +15,6 @@ const TransactionPage = () => {
   };
 
   const handleCategoryChange = (e) => {
-    console.log(e.target.value)
     dispatch({
       type: "selectCategoryType",
       value: e.target.value,
@@ -36,93 +37,78 @@ const TransactionPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    e.target.reset();
+    console.log(form);
+    dispatch({
+      type: "resetForm",
+    });
   };
 
   return (
     <div className="transactionPageContainer">
       <form className="transactionPageForm" onSubmit={handleSubmit}>
-        <div className="form-section" onChange={hanleTransactionTypeChange}>
-          <p>Transaction Type</p>
-          {form.transactionType.errorMessage && (
-            <p className="form-error-msg">{form.transactionType.errorMessage}</p>
-          )}
-          <label className="radio-btn">
-            Deposit
-            <input
-              type="radio"
-              name="transactionType"
-              required
-              value={"deposit"}
-            />
-            <div className={`radio-circle ${form.transactionType.value === "deposit" && "active-radio-circle"}`}></div>
-          </label>
-          <label className="radio-btn">
-            Withdrawal
-            <input type="radio" name="transactionType" value={"withdrawal"} />
-            <div className={`radio-circle ${form.transactionType.value === "withdrawal" && "active-radio-circle"}`}></div>
-          </label>
-        </div>
+        <OptionSelector
+          options={["Deposit", "Withdrawal"]}
+          handlerFunction={hanleTransactionTypeChange}
+          formData={transactionType}
+          errorMessage={transactionType.errorMessage}
+        >
+          Transaction Type
+        </OptionSelector>
 
-        <div className="form-section" onChange={handleCategoryChange}>
-          <p>Category</p>
-          {form.categoryType.errorMessage && (
-            <p className="form-error-msg">{form.categoryType.errorMessage}</p>
-          )}
-          <label className="radio-btn">
-            Personal Balance
-            <input
-              type="radio"
-              name="category"
-              required
-              value={"personalBalance"}
-            />
-            <div className={`radio-circle ${form.categoryType.value === "personalBalance" && "active-radio-circle"}`}/>
-          </label>
-          <label className="radio-btn">
-            Savings
-            <input type="radio" name="category" value={"savings"} />
-            <div className={`radio-circle ${form.categoryType.value === "savings" && "active-radio-circle"}`}></div>
-          </label>
-        </div>
+        <OptionSelector
+          options={["Personal Balance", "Savings"]}
+          handlerFunction={handleCategoryChange}
+          formData={categoryType}
+          errorMessage={categoryType.errorMessage}
+        >
+          Category Type
+        </OptionSelector>
 
         <div className="form-section">
-          {form.ammount.errorMessage && <p className="form-error-msg">{form.ammount.errorMessage}</p>}
-          <label>
+          {ammount.errorMessage && (
+            <p className="form-error-msg">{ammount.errorMessage}</p>
+          )}
+          <label className="ammount-input">
             Ammount
-            <br />
-            $
-            <input
-              required
-              name="ammount"
-              type="number"
-              value={parseFloat(form.ammount.value) || ""}
-              step="any"
-              min="0"
-              max="10000000.00"
-              inputMode="numeric"
-              placeholder="Enter ammount"
-              onChange={handleAmmountChange}
-            />
+            <div className="ammount-sub-input">
+              $
+              <input
+                required
+                className="ammount-input-box"
+                name="ammount"
+                type="number"
+                value={parseFloat(form.ammount.value) || ""}
+                step="any"
+                min="0"
+                max="10000000.00"
+                inputMode="numeric"
+                placeholder="Enter ammount..."
+                onChange={handleAmmountChange}
+              />
+            </div>
           </label>
-          {form.memo.errorMessage && <p className="form-error-msg">{form.memo.errorMessage}</p>}
-          <label>
+          {memo.errorMessage && (
+            <p className="form-error-msg">{memo.errorMessage}</p>
+          )}
+          <label className="memo-input">
             Memo
-            <br />
-            <input
+            <textarea
+              className="memo-textarea"
               name="memo"
               required
               minLength="1"
               maxLength="100"
-              placeholder="Enter memo"
+              placeholder="Enter memo..."
+              value={memo.value}
               onChange={handleMemoChange}
             />
           </label>
-          {form.memo.charactersLeft && <p>{form.memo.charactersLeft}</p>}
+          {memo.charactersLeft && <p>{memo.charactersLeft}</p>}
         </div>
 
         <input
-          disabled={form.errors.length === 0 ? false : true}
+          className="form-btn"
+          disabled={errors.length === 0 ? false : true}
           type="submit"
           value={"Complete"}
         />

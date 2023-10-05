@@ -9,7 +9,7 @@ export const initialForm = {
   },
   ammount: {
     value: "",
-    errorMessage: "Please enter a ammount",
+    errorMessage: "Please enter an ammount",
   },
   memo: {
     value: "",
@@ -114,7 +114,11 @@ export const formReducer = (state, action) => {
         };
       }
     }
+    case "resetForm": {
+      return initialForm
+    }
     default: {
+
     }
   }
 };

@@ -344,7 +344,7 @@ main {
 
 /* start of transaction page */
   .transactionPageContainer {
-    padding: 0 1.5rem;
+    padding: 1rem 1.5rem 2rem;
     font-family: "Rubik", sans-serif;
   }
 
@@ -357,6 +357,7 @@ main {
 
   .form-section {
     background-color: #333;
+    color: white;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -373,6 +374,7 @@ main {
     border-radius: 5px;
     background-color: #D1D9DD;
     color: black;
+    border: 2px transparent solid;
   }
 
   input[type="radio"] {
@@ -382,7 +384,7 @@ main {
   label:has(input[type="radio"]:checked) {
     background-color: #934DFC;
     color: white;
-    border: 1px solid white;
+    border: 2px solid #c77dff;
   }
 
   .radio-circle {
@@ -393,12 +395,55 @@ main {
     background-color: #808B90;
   }
 
-  .active-radio-circle {
+  input[type="radio"]:checked + .radio-circle {
     background-color: #FFC727;
   }
 
   .form-error-msg {
     color: #d62828;
+  }
+
+  .ammount-input, .memo-input {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+
+  .ammount-sub-input {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+
+  .ammount-input-box, .memo-textarea {
+    resize: none;
+    border-radius: 5px;
+    border: none;
+    padding: .5rem;
+    font-size: .8rem;
+    background-color: #D1D9DD;
+  }
+
+  .ammount-input-box:focus, .memo-textarea:focus {
+    outline: 3px;
+    outline-color: #c77dff;
+    outline-style: solid;
+  }
+
+  .form-btn {
+    background-color: #D62828;
+    margin-top: 1rem;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: .2rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+
+  .form-btn:disabled {
+    opacity: .5;
   }
 
 /* end of transaction page */
