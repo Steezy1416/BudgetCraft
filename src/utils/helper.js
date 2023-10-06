@@ -2,6 +2,16 @@ export const GetPercentage = (totalBalance, categoryTotal) => {
     if(totalBalance === 0.00 && categoryTotal === 0){
         return 0
     }
+    if(Math.sign(categoryTotal) === -1){
+        return 0
+    }
+    if(categoryTotal === 0){
+        return 0
+    }
+    if(categoryTotal > totalBalance){
+        return Math.round((categoryTotal / categoryTotal) * 100)
+    }
+
   return Math.round((categoryTotal / totalBalance) * 100);
 };
 

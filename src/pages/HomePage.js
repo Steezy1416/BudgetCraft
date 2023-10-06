@@ -8,16 +8,21 @@ import { GetPercentage, GetTotalBalance } from "../utils/helper";
 ChartJS.register(ArcElement);
 
 const HomePage = () => {
+  const budgetData = useBudget();
 
-  const budgetData = useBudget()
+  const isNegative = (ammount) => {
+    return Math.sign(ammount) === -1 ? 0 : ammount;
+  };
+
+  const { totalBalance, expensesTotal, personalBalance, savings } = budgetData;
 
   const data = {
     datasets: [
       {
         data: [
-          budgetData.expensesTotal,
-          budgetData.personalBalance,
-          budgetData.savings,
+          isNegative(expensesTotal),
+          isNegative(personalBalance),
+          isNegative(savings),
         ],
         backgroundColor: [
           "rgb(214, 40, 40)",
@@ -34,14 +39,7 @@ const HomePage = () => {
     ],
   };
 
-  const {
-    totalBalance,
-    expensesTotal,
-    personalBalance,
-    savings,
-  } = budgetData;
-
-  const newTotal = GetTotalBalance(expensesTotal, personalBalance, savings)
+  const newTotal = GetTotalBalance(expensesTotal, personalBalance, savings);
 
   return (
     <div className="home-page-container">
@@ -54,7 +52,7 @@ const HomePage = () => {
       </div>
 
       <div className="percentage-container">
-        <PercentageBadge percentage={GetPercentage(newTotal ,expensesTotal)}>
+        <PercentageBadge percentage={GetPercentage(newTotal, expensesTotal)}>
           Exps
         </PercentageBadge>
         <PercentageBadge percentage={GetPercentage(newTotal, savings)}>
