@@ -1,8 +1,11 @@
 import { useReducer } from "react";
 import { initialForm, formReducer } from "../reducers/transactionPageReducer";
 import OptionSelector from "../components/OptionSelector";
+import {useBudgetDispatch } from "../BudgetContext";
 
 const TransactionPage = () => {
+  const budgetDispatch = useBudgetDispatch();
+
   const [form, dispatch] = useReducer(formReducer, initialForm);
 
   const { transactionType, categoryType, ammount, memo, errors } = form;
@@ -38,6 +41,13 @@ const TransactionPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(form);
+
+    budgetDispatch({
+      type: transactionType.value,
+      category: categoryType.value,
+      ammount: parseFloat(ammount.value) 
+    })
+
     dispatch({
       type: "resetForm",
     });

@@ -50,7 +50,6 @@ export const formReducer = (state, action) => {
     }
     case "ammountChange": {
       const ammount = parseFloat(action.value);
-      console.log(ammount);
       if (ammount > 10000000.0) {
         return {
           ...state,

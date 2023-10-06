@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { BudgetProvider } from "../BudgetContext";
 
 const Root = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const toggleNav = () => {
-    setIsNavOpen(!isNavOpen)
-    document.body.classList.toggle("no-scroll")
-  }
+    setIsNavOpen(!isNavOpen);
+    document.body.classList.toggle("no-scroll");
+  };
 
   return (
     <>
@@ -48,7 +49,9 @@ const Root = () => {
         </nav>
       </header>
       <main>
-        <Outlet />
+        <BudgetProvider>
+          <Outlet />
+        </BudgetProvider>
       </main>
     </>
   );

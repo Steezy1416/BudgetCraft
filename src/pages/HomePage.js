@@ -2,36 +2,22 @@ import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement } from "chart.js";
 import HomePageLink from "../components/HomePageLink";
 import PercentageBadge from "../components/PercentageBadge";
+import { useBudget } from "../BudgetContext";
+import { GetPercentage, GetTotalBalance } from "../utils/helper";
 
 ChartJS.register(ArcElement);
 
 const HomePage = () => {
-  const financialData = {
-    availableBalance: () => {
-      return expensesTotal + personalMoney + savings;
-    },
-    expensesTotal: 352.5,
-    personalMoney: 317.36,
-    savings: 1800,
-    expenses: [],
-    expensePercentage: () => {
-      return Math.round((expensesTotal / availableBalance()) * 100);
-    },
-    personalPercentage: () => {
-      return Math.round((personalMoney / availableBalance()) * 100);
-    },
-    savingsPercentage: () => {
-      return Math.round((savings / availableBalance()) * 100);
-    },
-  };
+
+  const budgetData = useBudget()
 
   const data = {
     datasets: [
       {
         data: [
-          financialData.expensesTotal,
-          financialData.personalMoney,
-          financialData.savings,
+          budgetData.expensesTotal,
+          budgetData.personalBalance,
+          budgetData.savings,
         ],
         backgroundColor: [
           "rgb(214, 40, 40)",
@@ -49,14 +35,13 @@ const HomePage = () => {
   };
 
   const {
-    availableBalance,
+    totalBalance,
     expensesTotal,
-    personalMoney,
+    personalBalance,
     savings,
-    expensePercentage,
-    savingsPercentage,
-    personalPercentage,
-  } = financialData;
+  } = budgetData;
+
+  const newTotal = GetTotalBalance(expensesTotal, personalBalance, savings)
 
   return (
     <div className="home-page-container">
@@ -64,18 +49,18 @@ const HomePage = () => {
         <Pie data={data} options={{ events: [], animation: { duration: 0 } }} />
         <div className="graph-summary-container">
           <p className="graph-heading">Available Balance</p>
-          <p className="graph-total">${availableBalance()}</p>
+          <p className="graph-total">${newTotal}</p>
         </div>
       </div>
 
       <div className="percentage-container">
-        <PercentageBadge percentage={expensePercentage()}>
+        <PercentageBadge percentage={GetPercentage(newTotal ,expensesTotal)}>
           Exps
         </PercentageBadge>
-        <PercentageBadge percentage={savingsPercentage()}>
+        <PercentageBadge percentage={GetPercentage(newTotal, savings)}>
           Savings
         </PercentageBadge>
-        <PercentageBadge percentage={personalPercentage()}>
+        <PercentageBadge percentage={GetPercentage(newTotal, personalBalance)}>
           Personal
         </PercentageBadge>
       </div>
@@ -84,19 +69,19 @@ const HomePage = () => {
         <HomePageLink
           className="historyHomeLink"
           title={"History"}
-          isLink={true}
+          isLink={totalBalance === 0 ? false : true}
         />
         <HomePageLink
           className="expensesHomeLink"
           title={"Expenses"}
-          isLink={true}
+          isLink={totalBalance === 0 ? false : true}
           ammount={expensesTotal}
         />
         <HomePageLink
           className="personalHomeLink"
           title={"Personal Balance"}
           isLink={false}
-          ammount={personalMoney}
+          ammount={personalBalance}
         />
         <HomePageLink
           className="savingsHomeLink"
