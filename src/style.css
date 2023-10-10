@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap");
 
+:root {
+  --personalBalance-clr: #0a9396;
+  --savings-clr: #ee9b00;
+  --expenses-clr: #d62828;
+  --error-msg-clr: #ffb703;
+}
+
 /*start of css reset */
 *,
 *::before,
@@ -66,8 +73,7 @@ body {
   padding: 1.5rem;
   position: sticky;
   top: 0;
-  background-color: rgba(236, 239, 241, .8);
-  /* backdrop-filter:  blur(20px); */
+  background-color: rgba(236, 239, 241, 0.8);
   z-index: 9999;
 }
 
@@ -76,7 +82,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-  backdrop-filter:  blur(20px);
+  backdrop-filter: blur(20px);
 }
 
 .nav-btn {
@@ -211,6 +217,10 @@ main {
 
 .homePageLinkContainer {
   background-color: #333;
+  background-image: url("./assets/layered-waves-haikei5.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
   border-radius: 0 55px 0 0;
   align-self: stretch;
   flex: 1 1 auto;
@@ -272,30 +282,35 @@ main {
   grid-area: history;
   background-color: #934dfc;
   border-radius: 25px 25px 5px 5px;
+  background-image: linear-gradient(to bottom,#934dfc, #822faf);
 }
 
 .expensesHomeLink {
   grid-area: expenses;
-  background-color: #d62828;
+  background-color: var(--expenses-clr);
   border-radius: 5px;
+  background-image: linear-gradient(to bottom, var(--expenses-clr), #941b0c);
 }
 
 .personalHomeLink {
   grid-area: personalBalance;
-  background-color: #0a9396;
+  background-color: var(--personalBalance-clr);
   border-radius: 5px 25px 5px 25px;
+  background-image: linear-gradient(to bottom ,var(--personalBalance-clr), #005f73);
 }
 
 .savingsHomeLink {
   grid-area: savings;
-  background-color: #ee9b00;
+  background-color: var(--savings-clr);
   border-radius: 25px 5px 25px 5px;
+  background-image: linear-gradient(to bottom ,var(--savings-clr), #ca6702);
 }
 
 .transactionHomeLink {
   grid-area: transaction;
   background-color: #47b6d4;
   border-radius: 5px 5px 25px 25px;
+  background-image: linear-gradient(to bottom ,#47b6d4, #219ebc);
 }
 
 .percentage-container {
@@ -305,6 +320,7 @@ main {
   flex-wrap: wrap;
   gap: 1rem;
   font-family: "Rubik", sans-serif;
+  font-weight: 500;
   padding: 0 1rem;
 }
 
@@ -322,15 +338,15 @@ main {
 }
 
 .expsPercentage {
-  background-color: rgb(214, 40, 40);
+  background-color: var(--expenses-clr);
 }
 
 .savingsPercentage {
-  background-color: rgb(238, 155, 0);
+  background-color: var(--savings-clr);
 }
 
 .personalPercentage {
-  background-color: rgb(10, 147, 150);
+  background-color: var(--personalBalance-clr);
 }
 
 .no-scroll {
@@ -339,111 +355,115 @@ main {
 
 /* end of root section */
 
-
-
-
 /* start of transaction page */
-  .transactionPageContainer {
-    padding: 1rem 1.5rem 2rem;
-    font-family: "Rubik", sans-serif;
-  }
+.transactionPageContainer {
+  padding: 1rem 1.5rem 2rem;
+  font-family: "Rubik", sans-serif;
+}
 
-  .transactionPageForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
+.transactionPageForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
 
-  .form-section {
-    background-color: #333;
-    color: white;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    border-radius: 5px 25px 5px 25px;
-    padding: 1rem;
-    gap: .5rem;
-  }
+.form-section {
+  background-color: #333;
+  background-image: url("./assets/layered-waves-haikei4.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px 25px 5px 25px;
+  padding: 1rem;
+  gap: 0.5rem;
+}
 
-  .radio-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: .5rem;
-    border-radius: 5px;
-    background-color: #D1D9DD;
-    color: black;
-    border: 2px transparent solid;
-  }
+.radio-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  border: 2px transparent solid;
+}
 
-  input[type="radio"] {
-    opacity: 0;
-  }
+input[type="radio"] {
+  opacity: 0;
+}
 
-  label:has(input[type="radio"]:checked) {
-    background-color: #934DFC;
-    color: white;
-    border: 2px solid #c77dff;
-  }
+label:has(input[type="radio"]:checked) {
+  background-color: #0096c7;
+  color: white;
+  border: 2px solid #90e0ef;
+}
 
-  .radio-circle {
-    width: 1.5rem;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    color: black;
-    background-color: #808B90;
-  }
+.radio-circle {
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: black;
+  background-color: #808b90;
+}
 
-  input[type="radio"]:checked + .radio-circle {
-    background-color: #FFC727;
-  }
+input[type="radio"]:checked + .radio-circle {
+  background-color: #90e0ef;
+}
 
-  .form-error-msg {
-    color: #d62828;
-  }
+.form-error-msg {
+  color: var(--error-msg-clr);
+}
 
-  .ammount-input, .memo-input {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-  }
+.ammount-input,
+.memo-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-  .ammount-sub-input {
-    display: flex;
-    gap: .5rem;
-    align-items: center;
-    font-size: 1.5rem;
-  }
+.ammount-sub-input {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 1.5rem;
+}
 
-  .ammount-input-box, .memo-textarea {
-    resize: none;
-    border-radius: 5px;
-    border: none;
-    padding: .5rem;
-    font-size: .8rem;
-    background-color: #D1D9DD;
-  }
+.ammount-input-box,
+.memo-textarea {
+  resize: none;
+  border-radius: 5px;
+  border: none;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  background-color: white;
+}
 
-  .ammount-input-box:focus, .memo-textarea:focus {
-    outline: 3px;
-    outline-color: #c77dff;
-    outline-style: solid;
-  }
+.ammount-input-box:focus,
+.memo-textarea:focus {
+  outline: 3px;
+  outline-color: #c77dff;
+  outline-style: solid;
+}
 
-  .form-btn {
-    background-color: #D62828;
-    margin-top: 1rem;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    padding: .2rem 1.5rem;
-    border-radius: 10px;
-    font-weight: 500;
-  }
+.form-btn {
+  background-color: #d62828;
+  margin-top: 1rem;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.2rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+}
 
-  .form-btn:disabled {
-    opacity: .5;
-  }
+.form-btn:disabled {
+  opacity: 0.5;
+}
 
 /* end of transaction page */
