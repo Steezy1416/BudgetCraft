@@ -1,27 +1,19 @@
 export const initialForm = {
   transactionType: {
     value: "",
-    errorMessage: "Please select an option",
   },
   categoryType: {
     value: "",
-    errorMessage: "Please select an option",
   },
   ammount: {
     value: "",
-    errorMessage: "Please enter an ammount",
+    errorMessage: "",
   },
   memo: {
     value: "",
-    errorMessage: "Please enter a memo",
     charactersLeft: "",
   },
-  errors: [
-    "transactionTypeError",
-    "categoryTypeError",
-    "ammountError",
-    "memoError",
-  ],
+  errors: ["transactionTypeError", "categoryTypeError", "ammountError"],
 };
 
 export const formReducer = (state, action) => {
@@ -31,7 +23,6 @@ export const formReducer = (state, action) => {
         ...state,
         transactionType: {
           value: action.value,
-          errorMessage: "",
         },
         errors: state.errors.filter(
           (error) => error !== "transactionTypeError"
@@ -43,19 +34,18 @@ export const formReducer = (state, action) => {
         ...state,
         categoryType: {
           value: action.value,
-          errorMessage: "",
         },
         errors: state.errors.filter((error) => error !== "categoryTypeError"),
       };
     }
     case "ammountChange": {
       const ammount = parseFloat(action.value);
-      if (ammount > 10000000.0) {
+      if (ammount > 100000000.0) {
         return {
           ...state,
           ammount: {
             value: state.ammount.value.toString(),
-            errorMessage: "Ammount must be less than 100000.00",
+            errorMessage: "Ammount must be less than $100,000,000.00",
           },
           errors: [...state.errors, "ammountError"],
         };
@@ -90,34 +80,38 @@ export const formReducer = (state, action) => {
     }
     case "memoChange": {
       const memo = action.value;
-      const memoLenght = memo.length;
-      if (memoLenght === 0) {
+      const memoLength = memo.length;
+      console.log(memo[memoLength - 1]);
+      if (memo[0] === " ") {
         return {
           ...state,
           memo: {
             value: "",
-            errorMessage: "Please enter a memo",
-            charactersLeft: `You have ${100 - memoLenght} characters left`,
+            charactersLeft: 100,
           },
-          errors: [...state.errors, "memoError"],
+        };
+      } else if (memo[memoLength - 2] === " " && memo[memoLength - 1] === " ") {
+        return {
+          ...state,
+          memo: {
+            value: state.memo.value,
+            charactersLeft: state.memo.charactersLeft,
+          },
         };
       } else {
         return {
           ...state,
           memo: {
             value: memo,
-            errorMessage: "",
-            charactersLeft: `You have ${100 - memoLenght} characters left`,
+            charactersLeft: 100 - memoLength,
           },
-          errors: state.errors.filter((error) => error !== "memoError"),
         };
       }
     }
     case "resetForm": {
-      return initialForm
+      return initialForm;
     }
     default: {
-
     }
   }
 };

@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { initialForm, formReducer } from "../reducers/transactionPageReducer";
 import OptionSelector from "../components/OptionSelector";
-import {useBudgetDispatch } from "../BudgetContext";
+import { useBudgetDispatch } from "../BudgetContext";
 
 const TransactionPage = () => {
   const budgetDispatch = useBudgetDispatch();
@@ -32,6 +32,7 @@ const TransactionPage = () => {
   };
 
   const handleMemoChange = (e) => {
+    if (e.nativeEvent.inputType === "insertLineBreak") return;
     dispatch({
       type: "memoChange",
       value: e.target.value,
@@ -45,8 +46,8 @@ const TransactionPage = () => {
     budgetDispatch({
       type: transactionType.value,
       category: categoryType.value,
-      ammount: parseFloat(ammount.value) 
-    })
+      ammount: parseFloat(ammount.value),
+    });
 
     dispatch({
       type: "resetForm",
@@ -60,7 +61,6 @@ const TransactionPage = () => {
           options={["Deposit", "Withdrawal"]}
           handlerFunction={hanleTransactionTypeChange}
           formData={transactionType}
-          errorMessage={transactionType.errorMessage}
         >
           Transaction Type
         </OptionSelector>
@@ -69,7 +69,6 @@ const TransactionPage = () => {
           options={["Personal Balance", "Savings"]}
           handlerFunction={handleCategoryChange}
           formData={categoryType}
-          errorMessage={categoryType.errorMessage}
         >
           Category Type
         </OptionSelector>
@@ -90,7 +89,7 @@ const TransactionPage = () => {
                 value={parseFloat(form.ammount.value) || ""}
                 step="any"
                 min="0"
-                max="10000000.00"
+                max="100000000.00"
                 inputMode="numeric"
                 placeholder="Enter ammount..."
                 onChange={handleAmmountChange}
@@ -101,11 +100,12 @@ const TransactionPage = () => {
             <p className="form-error-msg">{memo.errorMessage}</p>
           )}
           <label className="memo-input">
-            Memo
+            <p>
+              Memo <span className="form-error-msg">&#40;optional&#41;</span>
+            </p>
             <textarea
               className="memo-textarea"
               name="memo"
-              required
               minLength="1"
               maxLength="100"
               placeholder="Enter memo..."
@@ -113,7 +113,13 @@ const TransactionPage = () => {
               onChange={handleMemoChange}
             />
           </label>
-          {memo.charactersLeft && <p>{memo.charactersLeft}</p>}
+          {memo.charactersLeft && (
+            <p>
+              You have{" "}
+              <span className="form-error-msg">{memo.charactersLeft}</span>{" "}
+              characters left
+            </p>
+          )}
         </div>
 
         <input

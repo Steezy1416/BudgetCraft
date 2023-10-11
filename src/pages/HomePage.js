@@ -3,7 +3,7 @@ import { Chart as ChartJS, ArcElement } from "chart.js";
 import HomePageLink from "../components/HomePageLink";
 import PercentageBadge from "../components/PercentageBadge";
 import { useBudget } from "../BudgetContext";
-import { GetPercentage, GetTotalBalance } from "../utils/helper";
+import { GetPercentage, GetTotalBalance, formatNumber } from "../utils/helper";
 
 ChartJS.register(ArcElement);
 
@@ -47,7 +47,7 @@ const HomePage = () => {
         <Pie data={data} options={{ events: [], animation: { duration: 0 } }} />
         <div className="graph-summary-container">
           <p className="graph-heading">Available Balance</p>
-          <p className="graph-total">${newTotal}</p>
+          <p className="graph-total">${formatNumber(newTotal)}</p>
         </div>
       </div>
 
@@ -64,34 +64,36 @@ const HomePage = () => {
       </div>
 
       <div className="homePageLinkContainer">
-        <HomePageLink
-          className="historyHomeLink"
-          title={"History"}
-          isLink={totalBalance === 0 ? false : true}
-        />
-        <HomePageLink
-          className="expensesHomeLink"
-          title={"Expenses"}
-          isLink={totalBalance === 0 ? false : true}
-          ammount={expensesTotal}
-        />
-        <HomePageLink
-          className="personalHomeLink"
-          title={"Personal Balance"}
-          isLink={false}
-          ammount={personalBalance}
-        />
-        <HomePageLink
-          className="savingsHomeLink"
-          title={"Savings"}
-          isLink={false}
-          ammount={savings}
-        />
-        <HomePageLink
-          className="transactionHomeLink"
-          title={"Transaction"}
-          isLink={true}
-        />
+        <div className="linkContainer">
+          <HomePageLink
+            className="historyHomeLink"
+            title={"History"}
+            isLink={totalBalance === 0 ? false : true}
+          />
+          <HomePageLink
+            className="expensesHomeLink"
+            title={"Expenses"}
+            isLink={totalBalance === 0 ? false : true}
+            ammount={formatNumber(expensesTotal)}
+          />
+          <HomePageLink
+            className="personalHomeLink"
+            title={"Personal Balance"}
+            isLink={false}
+            ammount={formatNumber(personalBalance)}
+          />
+          <HomePageLink
+            className="savingsHomeLink"
+            title={"Savings"}
+            isLink={false}
+            ammount={formatNumber(savings)}
+          />
+          <HomePageLink
+            className="transactionHomeLink"
+            title={"Transaction"}
+            isLink={true}
+          />
+        </div>
       </div>
     </div>
   );
