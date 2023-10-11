@@ -40,7 +40,18 @@ export const formReducer = (state, action) => {
     }
     case "ammountChange": {
       const ammount = parseFloat(action.value);
-      if (ammount > 100000000.0) {
+      const totalBalance = action.totalBalance;
+      const maxAmmount = 100000000;
+      if (ammount + totalBalance > maxAmmount) {
+        return {
+          ...state,
+          ammount: {
+            value: "",
+            errorMessage: "Too rich, total balance cant exceed $100,000,000.00",
+          },
+          errors: [...state.errors, "ammountError"],
+        };
+      } else if (ammount > maxAmmount) {
         return {
           ...state,
           ammount: {
@@ -62,7 +73,7 @@ export const formReducer = (state, action) => {
         return {
           ...state,
           ammount: {
-            value: state.ammount.value.toString(),
+            value: "",
             errorMessage: "Ammount must be greater than 0",
           },
           errors: [...state.errors, "ammountError"],

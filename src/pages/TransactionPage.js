@@ -1,9 +1,10 @@
 import { useReducer } from "react";
 import { initialForm, formReducer } from "../reducers/transactionPageReducer";
 import OptionSelector from "../components/OptionSelector";
-import { useBudgetDispatch } from "../BudgetContext";
+import { useBudget, useBudgetDispatch } from "../BudgetContext";
 
 const TransactionPage = () => {
+  const {totalBalance} = useBudget()
   const budgetDispatch = useBudgetDispatch();
 
   const [form, dispatch] = useReducer(formReducer, initialForm);
@@ -28,6 +29,7 @@ const TransactionPage = () => {
     dispatch({
       type: "ammountChange",
       value: e.target.value,
+      totalBalance
     });
   };
 
