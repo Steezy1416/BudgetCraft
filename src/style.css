@@ -187,6 +187,34 @@ main {
   }
 }
 
+@media (min-width: 600px) {
+
+  .main-nav-header {
+    padding: 0;
+    justify-content: center;
+  }
+
+  .navLink:not(.active):hover {
+    background-color: rgba(30, 52, 84, .2);
+  }
+
+  .nav-btn {
+    display: none;
+  }
+
+  .main-navigation {
+    position: static;
+    inset: initial;
+    transform: initial;
+    width: 40rem;
+    flex-direction: row;
+    justify-content: space-between;
+    background-image: none;
+    padding: 1.5rem;
+    border-radius: 0 0 15px 15px;
+  }
+}
+
 /*end of root section*/
 
 /*start of homepage section*/
@@ -400,6 +428,24 @@ main {
   }
 }
 
+@media (min-width: 600px) {
+
+  .homePageLink:hover {
+    transform: scale(1.03);
+    transition: transform 200ms;
+  }
+
+  .home-page-container {
+    padding: 1rem 0 0;
+  }
+
+  .homePageLinkContainer {
+    border-radius: 55px 55px 0 0;
+    width: 35rem;
+    margin: 0 auto;
+  }
+}
+
 /* end of homepage section */
 
 /* start of transaction page */
@@ -537,6 +583,31 @@ input[type="radio"]:checked + .radio-circle {
   .form-btn {
     margin-top: 1rem;
     font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 600px) {
+  main {
+    justify-content: center;
+  }
+
+  .transactionPageContainer {
+    padding: 1rem 0 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .form-section {
+    width: 35rem;
+  }
+
+  .radio-btn:hover {
+    background-color: lightgray;
+  }
+
+  .form-btn:not(:disabled):hover {
+    transform: scale(1.05);
+    transition: transform 300ms;
   }
 }
 
