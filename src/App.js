@@ -3,6 +3,7 @@ import Root from './components/Root';
 import "./style.css"
 import HomePage from './pages/HomePage';
 import TransactionPage from './pages/TransactionPage';
+import ExpensePage from './pages/ExpensePage';
 
 
 const router = createBrowserRouter(
@@ -10,7 +11,7 @@ const router = createBrowserRouter(
     <Route path='/' element={<Root/>}>
       <Route index element={<HomePage/>}/>
       <Route path='history'/>
-      <Route path='expenses'/>
+      <Route path='expenses' element={<ExpensePage/>}/>
       <Route path='transaction' element={<TransactionPage/>}/>
     </Route>
   )

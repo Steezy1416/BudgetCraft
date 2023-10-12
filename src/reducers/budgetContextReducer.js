@@ -48,6 +48,15 @@ export const budgetReducer = (budget, action) => {
       }
     }
     /* falls through */
+    case "addExpense": {
+      return {
+        ...budget,
+        expenses: [...budget.expenses, action.expense],
+        expensesTotal: parseFloat((budget.expensesTotal + action.expenseAmmount).toFixed(2))
+      }
+
+    }
+    /* falls through */
     default: {
       return;
     }
