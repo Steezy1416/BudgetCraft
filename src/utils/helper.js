@@ -45,7 +45,11 @@ export const formatNumber = (number) => {
   }
 
   if (decimals) {
-    formatedNumber += `.${decimals}`;
+    if (decimals.length === 1) {
+      formatedNumber += `.${decimals}0`;
+    } else {
+      formatedNumber += `.${decimals}`;
+    }
   } else {
     formatedNumber += ".00";
   }

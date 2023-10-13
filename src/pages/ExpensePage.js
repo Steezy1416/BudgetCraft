@@ -6,9 +6,26 @@ import ExpenseModal from "../components/ExpenseModal";
 const ExpensePage = () => {
 const budgetData = useBudget()
   const { expensesTotal, expenses } = budgetData;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const [modalState, setModalState] = useState({
+    modalData: budgetData,
+    modalPurpose: "create",
+    isModalOpen: false
+  });
 
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const openModal = () => setModalState({
+    ...modalState, 
+    isModalOpen: true, 
+    modalPurpose: "create"});
+
+  const handleExpenseClick = (expense) => {
+    
+    setModalState({
+        isModalOpen: true,
+        modalData: expense,
+        modalPurpose: "summary"
+    })
+  }
 
   return (
     <div className="expensePageContainer">
@@ -17,17 +34,17 @@ const budgetData = useBudget()
         {
             expenses && 
                 expenses.map(expense => (
-                    <div>
+                    <div onClick={() => handleExpenseClick(expense)} key={expense.expenseName}>
                         <p>{expense.expenseName}</p>
                     </div>
                 ))
         }
       </div>
       <p>Expenses Total: ${formatNumber(expensesTotal)} </p>
-      <div onClick={toggleModal} className="addExpenseBtn">
+      <div onClick={openModal} className="addExpenseBtn">
         <i className="fa-solid fa-plus"></i>
       </div>
-      <ExpenseModal budgetData={budgetData} isOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <ExpenseModal modalState={modalState} setModalState={setModalState} />
     </div>
   );
 };

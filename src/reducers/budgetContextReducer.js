@@ -21,12 +21,18 @@ export const budgetReducer = (budget, action) => {
         return {
           ...budget,
           totalBalance: GetTotalBalance(expensesTotal, action.ammount, savings),
-          personalBalance: parseFloat((action.ammount + personalBalance).toFixed(2)),
+          personalBalance: parseFloat(
+            (action.ammount + personalBalance).toFixed(2)
+          ),
         };
       } else if (action.category === "Savings") {
         return {
           ...budget,
-          totalBalance: GetTotalBalance(expensesTotal, personalBalance, action.ammount),
+          totalBalance: GetTotalBalance(
+            expensesTotal,
+            personalBalance,
+            action.ammount
+          ),
           savings: parseFloat((action.ammount + savings).toFixed(2)),
         };
       }
@@ -37,24 +43,78 @@ export const budgetReducer = (budget, action) => {
         return {
           ...budget,
           totalBalance: GetTotalBalance(expensesTotal, action.ammount, savings),
-          personalBalance: parseFloat((personalBalance - action.ammount).toFixed(2)),
+          personalBalance: parseFloat(
+            (personalBalance - action.ammount).toFixed(2)
+          ),
         };
       } else if (action.category === "Savings") {
         return {
           ...budget,
-          totalBalance: GetTotalBalance(expensesTotal, personalBalance, action.ammount),
+          totalBalance: GetTotalBalance(
+            expensesTotal,
+            personalBalance,
+            action.ammount
+          ),
           savings: parseFloat((savings - action.ammount).toFixed(2)),
         };
       }
     }
     /* falls through */
     case "addExpense": {
-      return {
-        ...budget,
-        expenses: [...budget.expenses, action.expense],
-        expensesTotal: parseFloat((budget.expensesTotal + action.expenseAmmount).toFixed(2))
+      if (action.expense.withdrawalFrom.toLowerCase() === "personal") {
+        return {
+          ...budget,
+          personalBalance: parseFloat(personalBalance - action.expenseAmmount),
+          expenses: [...budget.expenses, action.expense],
+          expensesTotal: parseFloat(
+            (budget.expensesTotal + action.expenseAmmount).toFixed(2)
+          ),
+        };
+      } else {
+        return {
+          ...budget,
+          savings: parseFloat(savings - action.expenseAmmount),
+          expenses: [...budget.expenses, action.expense],
+          expensesTotal: parseFloat(
+            (budget.expensesTotal + action.expenseAmmount).toFixed(2)
+          ),
+        };
+      }
+    }
+    case "updateExpense": {
+      const updatedExpense = action.expense;
+      const updatedExpenses = budget.expenses.map((expense) => {
+        if (expense.expenseName === updatedExpense.expenseName) {
+          return updatedExpense;
+        } else {
+          return expense;
+        }
+      });
+
+      let updatedExpenseTotal = 0;
+
+      for (let i = 0; i < updatedExpenses.length; i++) {
+        updatedExpenseTotal =
+          parseFloat(updatedExpenses[i].currentAmmount) + updatedExpenseTotal;
       }
 
+      console.log(updatedExpenseTotal);
+
+      return {
+        ...budget,
+        expenses: updatedExpenses,
+        expensesTotal: updatedExpenseTotal,
+      };
+    }
+    case "deleteExpense": {
+      const expenseToBeDeleted = action.expense;
+      const updatedExpenses = budget.expenses.filter(
+        (expense) => expense.expenseName !== expenseToBeDeleted.expenseName
+      );
+      return {
+        ...budget,
+        expenses: updatedExpenses,
+      };
     }
     /* falls through */
     default: {
