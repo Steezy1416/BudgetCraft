@@ -16,8 +16,8 @@ export const budgetReducer = (budget, action) => {
   const { expensesTotal, savings, personalBalance } = budget;
 
   switch (action.type) {
-    case "Deposit": {
-      if (action.category === "Personal Balance") {
+    case "deposit": {
+      if (action.category === "personal balance") {
         return {
           ...budget,
           totalBalance: GetTotalBalance(expensesTotal, action.ammount, savings),
@@ -25,7 +25,7 @@ export const budgetReducer = (budget, action) => {
             (action.ammount + personalBalance).toFixed(2)
           ),
         };
-      } else if (action.category === "Savings") {
+      } else if (action.category === "savings") {
         return {
           ...budget,
           totalBalance: GetTotalBalance(
@@ -38,8 +38,8 @@ export const budgetReducer = (budget, action) => {
       }
     }
     /* falls through */
-    case "Withdrawal": {
-      if (action.category === "Personal Balance") {
+    case "withdrawal": {
+      if (action.category === "personal balance") {
         return {
           ...budget,
           totalBalance: GetTotalBalance(expensesTotal, action.ammount, savings),
@@ -47,7 +47,7 @@ export const budgetReducer = (budget, action) => {
             (personalBalance - action.ammount).toFixed(2)
           ),
         };
-      } else if (action.category === "Savings") {
+      } else if (action.category === "savings") {
         return {
           ...budget,
           totalBalance: GetTotalBalance(
@@ -97,8 +97,6 @@ export const budgetReducer = (budget, action) => {
         updatedExpenseTotal =
           parseFloat(updatedExpenses[i].currentAmmount) + updatedExpenseTotal;
       }
-
-      console.log(updatedExpenseTotal);
 
       return {
         ...budget,

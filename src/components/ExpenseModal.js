@@ -294,8 +294,6 @@ const ExpenseSummary = ({
   budgetContextDispatch,
   closeModal,
 }) => {
-  console.log(modalState);
-  console.log(modalState.modalData);
   const { expenseName, withdrawalFrom, currentAmmount, maxAmmount, color } =
     modalState.modalData;
 

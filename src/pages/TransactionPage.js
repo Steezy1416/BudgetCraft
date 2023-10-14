@@ -4,7 +4,7 @@ import OptionSelector from "../components/OptionSelector";
 import { useBudget, useBudgetDispatch } from "../BudgetContext";
 
 const TransactionPage = () => {
-  const {totalBalance} = useBudget()
+  const { totalBalance } = useBudget();
   const budgetDispatch = useBudgetDispatch();
 
   const [form, dispatch] = useReducer(formReducer, initialForm);
@@ -14,14 +14,14 @@ const TransactionPage = () => {
   const hanleTransactionTypeChange = (e) => {
     dispatch({
       type: "selectTransactionType",
-      value: e.target.value,
+      value: e.target.value.toLowerCase(),
     });
   };
 
   const handleCategoryChange = (e) => {
     dispatch({
       type: "selectCategoryType",
-      value: e.target.value,
+      value: e.target.value.toLowerCase(),
     });
   };
 
@@ -29,7 +29,7 @@ const TransactionPage = () => {
     dispatch({
       type: "ammountChange",
       value: e.target.value,
-      totalBalance
+      totalBalance,
     });
   };
 
@@ -43,12 +43,10 @@ const TransactionPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
-
     budgetDispatch({
       type: transactionType.value,
       category: categoryType.value,
-      ammount: parseFloat(ammount.value),
+      ammount: ammount.value,
     });
 
     dispatch({
@@ -88,19 +86,18 @@ const TransactionPage = () => {
                 className="ammount-input-box"
                 name="ammount"
                 type="number"
-                value={parseFloat(form.ammount.value) || ""}
+                value={form.ammount.value}
                 step="any"
                 min="0"
                 max="100000000.00"
                 inputMode="numeric"
                 placeholder="Enter ammount..."
+                onWheel={(e) => e.currentTarget.blur()}
                 onChange={handleAmmountChange}
               />
             </div>
           </label>
-          {memo.errorMessage && (
-            <p className="form-error-msg">{memo.errorMessage}</p>
-          )}
+
           <label className="memo-input">
             <p>
               Memo <span className="form-error-msg">&#40;optional&#41;</span>

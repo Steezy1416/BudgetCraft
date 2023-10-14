@@ -16,10 +16,8 @@ export const GetPercentage = (totalBalance, categoryTotal) => {
 };
 
 export const GetTotalBalance = (expensesTotal, personalBalance, savings) => {
-  console.log(typeof expensesTotal, typeof personalBalance, typeof savings);
   const total = expensesTotal + personalBalance + savings;
   const formatedTotal = total.toFixed(2);
-  console.log(parseFloat(formatedTotal));
   return parseFloat(formatedTotal);
 };
 
@@ -30,7 +28,10 @@ export const formatNumber = (number) => {
   let formatedNumber = "";
   let seperatorCounter = 3;
 
-  if (numberLength > 3) {
+  if(!wholeNumbers){
+    formatedNumber = "0"
+  }
+  else if (numberLength > 3) {
     for (let i = numberLength - 1; i >= 0; i--) {
       if (seperatorCounter === 1 && i > 0) {
         formatedNumber = `,${wholeNumbers[i]}` + formatedNumber;

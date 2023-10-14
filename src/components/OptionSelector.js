@@ -7,7 +7,7 @@ const OptionSelector = ({ children, options, handlerFunction, formData }) => {
           {option}
           <input
             type="radio"
-            checked={formData.value === option}
+            checked={formData.value === option.toLowerCase()}
             name={children}
             required
             value={option}

@@ -39,32 +39,25 @@ export const formReducer = (state, action) => {
       };
     }
     case "ammountChange": {
-      const ammount = parseFloat(action.value);
+      const ammount = isNaN(parseFloat(action.value))
+        ? ""
+        : parseFloat(action.value);
       const totalBalance = action.totalBalance;
       const maxAmmount = 100000000;
       if (ammount + totalBalance > maxAmmount) {
         return {
           ...state,
           ammount: {
-            value: "",
+            value: state.ammount.value,
             errorMessage: "Too rich, total balance cant exceed $100,000,000.00",
           },
-          errors: [...state.errors, "ammountError"],
+          errors: state.errors.filter((error) => error !== "ammountError"),
         };
-      } else if (ammount > maxAmmount) {
+      } else if (ammount === "") {
         return {
           ...state,
           ammount: {
-            value: state.ammount.value.toString(),
-            errorMessage: "Ammount must be less than $100,000,000.00",
-          },
-          errors: [...state.errors, "ammountError"],
-        };
-      } else if (!ammount) {
-        return {
-          ...state,
-          ammount: {
-            value: "",
+            value: ammount,
             errorMessage: "Please enter an ammount",
           },
           errors: [...state.errors, "ammountError"],
@@ -73,7 +66,7 @@ export const formReducer = (state, action) => {
         return {
           ...state,
           ammount: {
-            value: "",
+            value: ammount,
             errorMessage: "Ammount must be greater than 0",
           },
           errors: [...state.errors, "ammountError"],
@@ -82,7 +75,7 @@ export const formReducer = (state, action) => {
         return {
           ...state,
           ammount: {
-            value: ammount.toString(),
+            value: ammount,
             errorMessage: "",
           },
           errors: state.errors.filter((error) => error !== "ammountError"),
@@ -92,13 +85,12 @@ export const formReducer = (state, action) => {
     case "memoChange": {
       const memo = action.value;
       const memoLength = memo.length;
-      console.log(memo[memoLength - 1]);
       if (memo[0] === " ") {
         return {
           ...state,
           memo: {
             value: "",
-            charactersLeft: 100,
+            charactersLeft: "100",
           },
         };
       } else if (memo[memoLength - 2] === " " && memo[memoLength - 1] === " ") {
@@ -114,7 +106,7 @@ export const formReducer = (state, action) => {
           ...state,
           memo: {
             value: memo,
-            charactersLeft: 100 - memoLength,
+            charactersLeft: (100 - memoLength).toString(),
           },
         };
       }
