@@ -1,5 +1,4 @@
 export const initialExpense = {
-    withdrawalFrom: "Personal",
     expenseName: "",
     currentAmmount: "",
     maxAmmount: "",
@@ -8,12 +7,6 @@ export const initialExpense = {
 
 export const expenseReducer = (state, action) => {
     switch(action.type){
-        case "changeWithdrawalFrom": {
-            return{
-                ...state,
-                withdrawalFrom: action.value
-            }
-        }
         case "changeExpenseName": {
             return{
                 ...state,

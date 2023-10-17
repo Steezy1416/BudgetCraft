@@ -17,8 +17,8 @@ export const GetPercentage = (totalBalance, categoryTotal) => {
 
 export const GetTotalBalance = (expensesTotal, personalBalance, savings) => {
   const total = expensesTotal + personalBalance + savings;
-  const formatedTotal = total.toFixed(2);
-  return parseFloat(formatedTotal);
+  const formatedTotal = total;
+  return parseFloat(formatedTotal).toFixed(2);
 };
 
 export const formatNumber = (number) => {
@@ -28,10 +28,9 @@ export const formatNumber = (number) => {
   let formatedNumber = "";
   let seperatorCounter = 3;
 
-  if(!wholeNumbers){
-    formatedNumber = "0"
-  }
-  else if (numberLength > 3) {
+  if (!wholeNumbers) {
+    formatedNumber = "0";
+  } else if (numberLength > 3) {
     for (let i = numberLength - 1; i >= 0; i--) {
       if (seperatorCounter === 1 && i > 0) {
         formatedNumber = `,${wholeNumbers[i]}` + formatedNumber;
@@ -59,18 +58,20 @@ export const formatNumber = (number) => {
 };
 
 export const GetExpensesTotal = (expenses) => {
-  let expensesTotal = expenses.map(expense => {
-    return expense.currentAmmount
-  })
+  console.log(expenses);
+  let expensesTotal = expenses.map((expense) => {
+    return expense.currentAmmount;
+  });
 
-  if(expensesTotal.length === 1){
-    return parseFloat(expensesTotal[0])
-  }
-  else {
+  if (expensesTotal.length === 0) {
+    return 0;
+  } else if (expensesTotal.length === 1) {
+    return parseFloat(expensesTotal[0]);
+  } else {
     const getSum = (accumalator, initialValue) => {
-      return parseFloat(accumalator + initialValue)
-    }
-  
-    return expensesTotal.reduce(getSum)
+      return parseFloat(accumalator + initialValue);
+    };
+
+    return expensesTotal.reduce(getSum).toFixed(2);
   }
-}
+};

@@ -58,12 +58,6 @@ const CreateExpense = ({
   budgetContextData,
   closeModal,
 }) => {
-  const handleWithdrawalFrom = (e) => {
-    dispatch({
-      type: "changeWithdrawalFrom",
-      value: e.target.value,
-    });
-  };
 
   const handleExpenseName = (e) => {
     dispatch({
@@ -120,14 +114,6 @@ const CreateExpense = ({
         </div>
         <form className="expense-form" onSubmit={handleSubmit}>
           <label>
-            Withdrawal From:
-            <select onChange={handleWithdrawalFrom}>
-              <option value="personal">Personal</option>
-              <option value="savings">Savings</option>
-            </select>
-          </label>
-
-          <label>
             Name:
             <input onChange={handleExpenseName} type="text" />
           </label>
@@ -175,17 +161,10 @@ const UpdateExpense = ({
   budgetContextDispatch,
   closeModal,
 }) => {
-  const { expenseName, withdrawalFrom, currentAmmount, maxAmmount, color } =
+  const { expenseName, currentAmmount, maxAmmount, color } =
     modalState.modalData;
 
   const [updatedExpense, setUpdatedExpense] = useState(modalState.modalData);
-
-  const updateExpenseWithdrawalFrom = (e) => {
-    setUpdatedExpense({
-      ...updatedExpense,
-      withdrawalFrom: e.target.value,
-    });
-  };
 
   const updateCurrentAmmount = (e) => {
     setUpdatedExpense({
@@ -231,16 +210,6 @@ const UpdateExpense = ({
           </div>
         </div>
         <form className="expense-form" onSubmit={handleExpenseUpdate}>
-          <label>
-            Withdrawal From:
-            <select
-              defaultValue={withdrawalFrom}
-              onChange={updateExpenseWithdrawalFrom}
-            >
-              <option value="personal">Personal</option>
-              <option value="savings">Savings</option>
-            </select>
-          </label>
 
           <p>Name: {expenseName}</p>
 
@@ -289,7 +258,7 @@ const ExpenseSummary = ({
   budgetContextDispatch,
   closeModal,
 }) => {
-  const { expenseName, withdrawalFrom, currentAmmount, maxAmmount, color } =
+  const { expenseName, currentAmmount, maxAmmount, color } =
     modalState.modalData;
 
   const handleUpdateClick = () => {
@@ -313,7 +282,6 @@ const ExpenseSummary = ({
         <h2>Expense</h2>
         <div className="expense-summary-container">
           <p>Name: {expenseName}</p>
-          <p>Withdrawal From: {withdrawalFrom}</p>
           <p>Current Ammount: ${formatNumber(currentAmmount)}</p>
           <p>Max Ammount: ${formatNumber(maxAmmount)}</p>
           <p>Color: {color}</p>

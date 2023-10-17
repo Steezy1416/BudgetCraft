@@ -61,28 +61,14 @@ export const budgetReducer = (budget, action) => {
     }
     /* falls through */
     case "addExpense": {
-      if (action.expense.withdrawalFrom.toLowerCase() === "personal") {
-        return {
-          ...budget,
-          personalBalance: parseFloat(personalBalance - action.expenseAmmount),
-          expenses: [...budget.expenses, action.expense],
-          expensesTotal: parseFloat(
-            (budget.expensesTotal + action.expenseAmmount).toFixed(2)
-          ),
-        };
-      } else {
-        return {
-          ...budget,
-          savings: parseFloat(savings - action.expenseAmmount),
-          expenses: [...budget.expenses, action.expense],
-          expensesTotal: parseFloat(
-            (budget.expensesTotal + action.expenseAmmount).toFixed(2)
-          ),
-        };
-      }
+      return {
+        ...budget,
+        expenses: [...budget.expenses, action.expense],
+        expensesTotal: GetExpensesTotal([...budget.expenses, action.expense]),
+      };
     }
     case "updateExpense": {
-      console.log(action.prevExpense)
+      console.log(action.prevExpense);
       const updatedExpense = action.expense;
       const updatedExpenses = budget.expenses.map((expense) => {
         if (expense.expenseName === updatedExpense.expenseName) {
@@ -91,35 +77,21 @@ export const budgetReducer = (budget, action) => {
           return expense;
         }
       });
-      if(updatedExpense.withdrawalFrom.toLowerCase() === "personal"){
-        return {
-          ...budget,
-          personalBalance: parseFloat((personalBalance + action.prevExpense.currentAmmount) - updatedExpense.currentAmmount),
-          expenses: updatedExpenses,
-          expensesTotal: GetExpensesTotal(updatedExpenses),
-        };
-      }
-      else {
-        return {
-          ...budget,
-          savings: parseFloat((savings + action.prevExpense.currentAmmount) - updatedExpense.currentAmmount),
-          expenses: updatedExpenses,
-          expensesTotal: GetExpensesTotal(updatedExpenses),
-        };
-      }
+
+      return {
+        ...budget,
+        expenses: updatedExpenses,
+        expensesTotal: GetExpensesTotal(updatedExpenses),
+      };
     }
 
     case "deleteExpense": {
       const expenseToBeDeleted = action.expense;
-      console.log(expenseToBeDeleted)
-      const withdrawalFrom = expenseToBeDeleted.withdrawalFrom === "personal" ? {personalBalance: parseFloat(personalBalance + expenseToBeDeleted.currentAmmount)} : {savings: parseFloat(savings + expenseToBeDeleted.currentAmmount)}
       const updatedExpenses = budget.expenses.filter(
         (expense) => expense.expenseName !== expenseToBeDeleted.expenseName
       );
-      console.log(withdrawalFrom)
       return {
         ...budget,
-        ...withdrawalFrom,
         expenses: updatedExpenses,
         expensesTotal: GetExpensesTotal(updatedExpenses),
       };
