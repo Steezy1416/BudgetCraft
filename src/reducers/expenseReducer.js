@@ -23,13 +23,13 @@ export const expenseReducer = (state, action) => {
         case "changeCurrentAmmount": {
             return{
                 ...state,
-                currentAmmount: action.value
+                currentAmmount: parseFloat(action.value)
             }
         }
         case "changeMaxAmmount": {
             return{
                 ...state,
-                maxAmmount: action.value
+                maxAmmount: parseFloat(action.value)
             }
         }
         case "changeColor": {

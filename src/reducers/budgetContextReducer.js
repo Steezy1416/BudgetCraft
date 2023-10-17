@@ -1,4 +1,4 @@
-import { GetTotalBalance } from "../utils/helper";
+import { GetExpensesTotal, GetTotalBalance } from "../utils/helper";
 
 const emptyBudget = {
   totalBalance: 0,
@@ -82,6 +82,7 @@ export const budgetReducer = (budget, action) => {
       }
     }
     case "updateExpense": {
+      console.log(action.prevExpense)
       const updatedExpense = action.expense;
       const updatedExpenses = budget.expenses.map((expense) => {
         if (expense.expenseName === updatedExpense.expenseName) {
@@ -90,28 +91,37 @@ export const budgetReducer = (budget, action) => {
           return expense;
         }
       });
-
-      let updatedExpenseTotal = 0;
-
-      for (let i = 0; i < updatedExpenses.length; i++) {
-        updatedExpenseTotal =
-          parseFloat(updatedExpenses[i].currentAmmount) + updatedExpenseTotal;
+      if(updatedExpense.withdrawalFrom.toLowerCase() === "personal"){
+        return {
+          ...budget,
+          personalBalance: parseFloat((personalBalance + action.prevExpense.currentAmmount) - updatedExpense.currentAmmount),
+          expenses: updatedExpenses,
+          expensesTotal: GetExpensesTotal(updatedExpenses),
+        };
       }
-
-      return {
-        ...budget,
-        expenses: updatedExpenses,
-        expensesTotal: updatedExpenseTotal,
-      };
+      else {
+        return {
+          ...budget,
+          savings: parseFloat((savings + action.prevExpense.currentAmmount) - updatedExpense.currentAmmount),
+          expenses: updatedExpenses,
+          expensesTotal: GetExpensesTotal(updatedExpenses),
+        };
+      }
     }
+
     case "deleteExpense": {
       const expenseToBeDeleted = action.expense;
+      console.log(expenseToBeDeleted)
+      const withdrawalFrom = expenseToBeDeleted.withdrawalFrom === "personal" ? {personalBalance: parseFloat(personalBalance + expenseToBeDeleted.currentAmmount)} : {savings: parseFloat(savings + expenseToBeDeleted.currentAmmount)}
       const updatedExpenses = budget.expenses.filter(
         (expense) => expense.expenseName !== expenseToBeDeleted.expenseName
       );
+      console.log(withdrawalFrom)
       return {
         ...budget,
+        ...withdrawalFrom,
         expenses: updatedExpenses,
+        expensesTotal: GetExpensesTotal(updatedExpenses),
       };
     }
     /* falls through */

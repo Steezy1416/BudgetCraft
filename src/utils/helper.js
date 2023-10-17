@@ -57,3 +57,20 @@ export const formatNumber = (number) => {
 
   return formatedNumber;
 };
+
+export const GetExpensesTotal = (expenses) => {
+  let expensesTotal = expenses.map(expense => {
+    return expense.currentAmmount
+  })
+
+  if(expensesTotal.length === 1){
+    return parseFloat(expensesTotal[0])
+  }
+  else {
+    const getSum = (accumalator, initialValue) => {
+      return parseFloat(accumalator + initialValue)
+    }
+  
+    return expensesTotal.reduce(getSum)
+  }
+}

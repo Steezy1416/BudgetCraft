@@ -4,13 +4,12 @@ import { expenseReducer, initialExpense } from "../reducers/expenseReducer";
 import { useBudget, useBudgetDispatch } from "../BudgetContext";
 
 const ExpenseModal = ({ modalState, setModalState }) => {
-  const { modalData, isModalOpen, modalPurpose } = modalState;
   const budgetContextData = useBudget();
   const budgetContextDispatch = useBudgetDispatch();
   const [expenseForm, dispatch] = useReducer(expenseReducer, initialExpense);
   const closeModal = () => setModalState({ ...modalState, isModalOpen: false });
 
-  switch (modalPurpose) {
+  switch (modalState.modalPurpose) {
     case "create": {
       return (
         <CreateExpense
@@ -39,8 +38,6 @@ const ExpenseModal = ({ modalState, setModalState }) => {
         <UpdateExpense
           modalState={modalState}
           budgetContextData={budgetContextData}
-          dispatch={dispatch}
-          expenseForm={expenseForm}
           budgetContextDispatch={budgetContextDispatch}
           closeModal={closeModal}
         />
@@ -175,8 +172,6 @@ const CreateExpense = ({
 const UpdateExpense = ({
   modalState,
   budgetContextData,
-  dispatch,
-  expenseForm,
   budgetContextDispatch,
   closeModal,
 }) => {
@@ -195,14 +190,14 @@ const UpdateExpense = ({
   const updateCurrentAmmount = (e) => {
     setUpdatedExpense({
       ...updatedExpense,
-      currentAmmount: e.target.value,
+      currentAmmount: parseFloat(e.target.value),
     });
   };
 
   const updateMaxAmmount = (e) => {
     setUpdatedExpense({
       ...updatedExpense,
-      maxAmmount: e.target.value,
+      maxAmmount: parseFloat(e.target.value),
     });
   };
 
@@ -219,7 +214,7 @@ const UpdateExpense = ({
     budgetContextDispatch({
       type: "updateExpense",
       expense: updatedExpense,
-      expenseAmmount: parseFloat(expenseForm.currentAmmount),
+      prevExpense: modalState.modalData,
     });
   };
 

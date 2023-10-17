@@ -19,7 +19,6 @@ const budgetData = useBudget()
     modalPurpose: "create"});
 
   const handleExpenseClick = (expense) => {
-    
     setModalState({
         isModalOpen: true,
         modalData: expense,
