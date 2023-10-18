@@ -58,9 +58,8 @@ export const formatNumber = (number) => {
 };
 
 export const GetExpensesTotal = (expenses) => {
-  console.log(expenses);
   let expensesTotal = expenses.map((expense) => {
-    return expense.currentAmmount;
+    return expense.currentAmmount.value;
   });
 
   if (expensesTotal.length === 0) {
@@ -72,6 +71,6 @@ export const GetExpensesTotal = (expenses) => {
       return parseFloat(accumalator + initialValue);
     };
 
-    return expensesTotal.reduce(getSum).toFixed(2);
+    return parseFloat(expensesTotal.reduce(getSum).toFixed(2));
   }
 };

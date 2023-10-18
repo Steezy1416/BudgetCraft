@@ -39,6 +39,7 @@ const HomePage = () => {
     ],
   };
 
+  console.log(expensesTotal);
   const newTotal = GetTotalBalance(expensesTotal, personalBalance, savings);
 
   return (

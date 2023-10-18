@@ -68,10 +68,9 @@ export const budgetReducer = (budget, action) => {
       };
     }
     case "updateExpense": {
-      console.log(action.prevExpense);
       const updatedExpense = action.expense;
       const updatedExpenses = budget.expenses.map((expense) => {
-        if (expense.expenseName === updatedExpense.expenseName) {
+        if (expense.expenseName.value === updatedExpense.expenseName.value) {
           return updatedExpense;
         } else {
           return expense;
@@ -88,7 +87,8 @@ export const budgetReducer = (budget, action) => {
     case "deleteExpense": {
       const expenseToBeDeleted = action.expense;
       const updatedExpenses = budget.expenses.filter(
-        (expense) => expense.expenseName !== expenseToBeDeleted.expenseName
+        (expense) =>
+          expense.expenseName.value !== expenseToBeDeleted.expenseName.value
       );
       return {
         ...budget,
