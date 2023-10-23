@@ -12,7 +12,7 @@ export const initialExpense = {
     errorMessage: "",
   },
   color: {
-    value: "#000000",
+    value: "#ffffff",
   },
   errors: ["expenseName", "currentAmmount", "maxAmmount"],
 };
@@ -31,7 +31,7 @@ export const expenseReducer = (state, action) => {
           ...state,
           expenseName: {
             value: action.value,
-            errorMessage: "Expense Name is already being used",
+            errorMessage: "Name is taken",
           },
           errors: [...state.errors, "expenseName"],
         };
@@ -69,7 +69,7 @@ export const expenseReducer = (state, action) => {
           ...state,
           currentAmmount: {
             value: ammount,
-            errorMessage: "Current ammount cannot be larger than max ammount",
+            errorMessage: "Ammount exceeds max ammount",
           },
           errors: [...state.errors, "currentAmmount"],
         };
@@ -80,7 +80,7 @@ export const expenseReducer = (state, action) => {
           ...state,
           currentAmmount: {
             value: state.currentAmmount.value,
-            errorMessage: "Too rich, total balance cant exceed $100,000,000.00",
+            errorMessage: "Total Balance will exceed $100,000,000.00",
           },
           errors: [...state.errors, "currentAmmount"],
         };
@@ -125,7 +125,7 @@ export const expenseReducer = (state, action) => {
           ...state,
           maxAmmount: {
             value: state.maxAmmount.value,
-            errorMessage: "Too rich, total balance cant exceed $100,000,000.00",
+            errorMessage: "Total Balance will exceed $100,000,000.00",
           },
           errors: [...state.errors, "maxAmmount"],
         };

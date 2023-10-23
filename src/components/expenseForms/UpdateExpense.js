@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { formatNumber } from "../../utils/helper";
 import { expenseReducer } from "../../reducers/expenseReducer";
+import Color from "../ColorInput";
 
 const UpdateExpense = ({
   modalState,
@@ -31,10 +32,10 @@ const UpdateExpense = ({
     });
   };
 
-  const updateColor = (e) => {
+  const updateColor = (color) => {
     dispatch({
       type: "changeColor",
-      value: e.target.value,
+      value: color,
     });
   };
 
@@ -49,22 +50,32 @@ const UpdateExpense = ({
   };
 
   return (
-    <div style={{ display: modalState.isModalOpen ? "block" : "none" }}>
-      <div className="modal">
-        <h2>Update Expense</h2>
+    <div
+      className="expenseModalContainer"
+      style={{ display: modalState.isModalOpen ? "block" : "none" }}
+    >
+      <div
+        style={{ backgroundColor: `${color.value}` }}
+        className="expenseModal"
+      >
+        <div className="expenseModalHeader">
+          <h2>Update Expense</h2>
+        </div>
         <div className="badge-container">
-          <div>
-            <p>Personal: ${formatNumber(budgetContextData.personalBalance)}</p>
+          <div className="expenseBadge personalBadge">
+            <p>Personal:</p>
+            <p>${formatNumber(budgetContextData.personalBalance)}</p>
           </div>
-          <div>
-            <p>Savings: ${formatNumber(budgetContextData.savings)}</p>
+          <div className="expenseBadge savingsBadge">
+            <p>Savings:</p>
+            <p>${formatNumber(budgetContextData.savings)}</p>
           </div>
         </div>
         <form className="expense-form" onSubmit={handleExpenseUpdate}>
           <p>Name: {expenseName.value}</p>
 
           {currentAmmount.errorMessage && <p>{currentAmmount.errorMessage}</p>}
-          <label>
+          <label className="expenseLabel">
             Current Ammount: $
             <input
               defaultValue={currentAmmount.value}
@@ -77,7 +88,7 @@ const UpdateExpense = ({
           </label>
 
           {maxAmmount.errorMessage && <p>{maxAmmount.errorMessage}</p>}
-          <label>
+          <label className="expenseLabel">
             Max Ammount: $
             <input
               defaultValue={maxAmmount.value}
@@ -89,20 +100,55 @@ const UpdateExpense = ({
             />
           </label>
 
-          <label>
-            Color:
-            <input
-              defaultValue={color.value}
-              onChange={updateColor}
-              type="color"
-            />
-          </label>
+          <div className="colorLabel">
+            <p>Color:</p>
+            <div className="expenseColorContainer">
+              <Color
+                dispatch={dispatch}
+                handleColor={updateColor}
+                currentColor={color.value}
+                color={"#ffffff"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={updateColor}
+                currentColor={color.value}
+                color={"#EE1E5F"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={updateColor}
+                currentColor={color.value}
+                color={"#FFC727"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={updateColor}
+                currentColor={color.value}
+                color={"#1DE98B"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={updateColor}
+                currentColor={color.value}
+                color={"#9747FF"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={updateColor}
+                currentColor={color.value}
+                color={"#0091EA"}
+              />
+            </div>
+          </div>
 
-          <div>
-            <button type="button" onClick={closeModal}>
+          <div className="expense-btn-container">
+            <button className="expenseBtn" type="button" onClick={closeModal}>
               Cancel
             </button>
-            <button type="submit">Update</button>
+            <button className="expenseBtn" type="submit">
+              Update
+            </button>
           </div>
         </form>
       </div>

@@ -1,15 +1,17 @@
-import { useReducer } from "react";
-import { expenseReducer, initialExpense } from "../reducers/expenseReducer";
 import { useBudget, useBudgetDispatch } from "../BudgetContext";
 import CreateExpense from "./expenseForms/CreateExpense";
 import ExpenseSummary from "./expenseForms/ExpenseSummary";
 import UpdateExpense from "./expenseForms/UpdateExpense";
 
-const ExpenseModal = ({ modalState, setModalState }) => {
+const ExpenseModal = ({
+  modalState,
+  setModalState,
+  expenseForm,
+  dispatch,
+  closeModal,
+}) => {
   const budgetContextData = useBudget();
   const budgetContextDispatch = useBudgetDispatch();
-  const [expenseForm, dispatch] = useReducer(expenseReducer, initialExpense);
-  const closeModal = () => setModalState({ ...modalState, isModalOpen: false });
 
   switch (modalState.modalPurpose) {
     case "create": {

@@ -42,8 +42,13 @@ export const formReducer = (state, action) => {
       const ammount = isNaN(parseFloat(action.value))
         ? ""
         : parseFloat(action.value);
-      const totalBalance = action.totalBalance;
+      const totalBalance = parseFloat(action.totalBalance);
       const maxAmmount = 100000000;
+
+      console.log(typeof ammount);
+      console.log(typeof totalBalance);
+      console.log(ammount + totalBalance);
+
       if (ammount + totalBalance > maxAmmount) {
         return {
           ...state,

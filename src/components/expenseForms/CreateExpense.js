@@ -1,4 +1,5 @@
 import { formatNumber } from "../../utils/helper";
+import Color from "../ColorInput";
 
 const CreateExpense = ({
   expenseForm,
@@ -8,6 +9,8 @@ const CreateExpense = ({
   budgetContextData,
   closeModal,
 }) => {
+  const { expenseName, currentAmmount, maxAmmount, color } = expenseForm;
+
   const handleExpenseName = (e) => {
     dispatch({
       type: "changeExpenseName",
@@ -37,10 +40,10 @@ const CreateExpense = ({
     });
   };
 
-  const handleColor = (e) => {
+  const handleColor = (color) => {
     dispatch({
       type: "changeColor",
-      value: e.target.value,
+      value: color,
     });
   };
 
@@ -50,29 +53,36 @@ const CreateExpense = ({
       type: "addExpense",
       expense: expenseForm,
     });
-    dispatch({
-      type: "resetForm",
-    });
     closeModal();
   };
 
-  const { expenseName, currentAmmount, maxAmmount, color } = expenseForm;
-
   return (
-    <div style={{ display: modalState.isModalOpen ? "block" : "none" }}>
-      <div className="modal">
-        <h2>Create Expense</h2>
+    <div
+      className="expenseModalContainer"
+      style={{ display: modalState.isModalOpen ? "block" : "none" }}
+    >
+      <div
+        style={{ backgroundColor: `${color.value}` }}
+        className="expenseModal"
+      >
+        <div className="expenseModalHeader">
+          <h2>Create Expense</h2>
+        </div>
         <div className="badge-container">
-          <div>
-            <p>Personal: ${formatNumber(budgetContextData.personalBalance)}</p>
+          <div className="expenseBadge personalBadge">
+            <p>Personal</p>
+            <p>${formatNumber(budgetContextData.personalBalance)}</p>
           </div>
-          <div>
-            <p>Savings: ${formatNumber(budgetContextData.savings)}</p>
+          <div className="expenseBadge savingsBadge">
+            <p>Savings</p>
+            <p>${formatNumber(budgetContextData.savings)}</p>
           </div>
         </div>
         <form className="expense-form" onSubmit={handleSubmit}>
-          {expenseName.errorMessage && <p>{expenseName.errorMessage}</p>}
-          <label>
+          {expenseName.errorMessage && (
+            <p className="form-error-msg">{expenseName.errorMessage}</p>
+          )}
+          <label className="expenseLabel">
             Name:
             <input
               required
@@ -82,8 +92,10 @@ const CreateExpense = ({
             />
           </label>
 
-          {currentAmmount.errorMessage && <p>{currentAmmount.errorMessage}</p>}
-          <label>
+          {currentAmmount.errorMessage && (
+            <p className="form-error-msg">{currentAmmount.errorMessage}</p>
+          )}
+          <label className="expenseLabel">
             Current Ammount: $
             <input
               onChange={handleCurrentAmmount}
@@ -96,8 +108,10 @@ const CreateExpense = ({
             />
           </label>
 
-          {maxAmmount.errorMessage && <p>{maxAmmount.errorMessage}</p>}
-          <label>
+          {maxAmmount.errorMessage && (
+            <p className="form-error-msg">{maxAmmount.errorMessage}</p>
+          )}
+          <label className="expenseLabel">
             Max Ammount: $
             <input
               onChange={handleMaxAmmount}
@@ -110,16 +124,54 @@ const CreateExpense = ({
             />
           </label>
 
-          <label>
-            Color:
-            <input onChange={handleColor} value={color.value} type="color" />
-          </label>
+          <div className="colorLabel">
+            <p>Color:</p>
+            <div className="expenseColorContainer">
+              <Color
+                dispatch={dispatch}
+                handleColor={handleColor}
+                currentColor={color.value}
+                color={"#ffffff"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={handleColor}
+                currentColor={color.value}
+                color={"#EE1E5F"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={handleColor}
+                currentColor={color.value}
+                color={"#FFC727"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={handleColor}
+                currentColor={color.value}
+                color={"#1DE98B"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={handleColor}
+                currentColor={color.value}
+                color={"#9747FF"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={handleColor}
+                currentColor={color.value}
+                color={"#0091EA"}
+              />
+            </div>
+          </div>
 
-          <div>
-            <button type="button" onClick={closeModal}>
+          <div className="expense-btn-container">
+            <button className="expenseBtn" type="button" onClick={closeModal}>
               Cancel
             </button>
             <button
+              className="expenseBtn"
               disabled={expenseForm.errors.length === 0 ? false : true}
               type="submit"
             >
