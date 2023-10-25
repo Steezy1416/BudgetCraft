@@ -22,12 +22,22 @@ const UpdateExpense = ({
       value: e.target.value,
       totalBalance: budgetContextData.totalBalance,
     });
+    dispatch({
+      type: "changeMaxAmmount",
+      value: maxAmmount.value,
+      totalBalance: budgetContextData.totalBalance,
+    });
   };
 
   const updateMaxAmmount = (e) => {
     dispatch({
       type: "changeMaxAmmount",
       value: e.target.value,
+      totalBalance: budgetContextData.totalBalance,
+    });
+    dispatch({
+      type: "changeCurrentAmmount",
+      value: currentAmmount.value,
       totalBalance: budgetContextData.totalBalance,
     });
   };
@@ -55,26 +65,32 @@ const UpdateExpense = ({
       style={{ display: modalState.isModalOpen ? "block" : "none" }}
     >
       <div
-        style={{ backgroundColor: `${color.value}` }}
+        style={{
+          backgroundColor: `${color.value}`,
+          color: `${color.value === "#ffffff" ? "black" : "#ced4da"}`,
+        }}
         className="expenseModal"
       >
         <div className="expenseModalHeader">
           <h2>Update Expense</h2>
+          <i onClick={closeModal} className="fa-solid fa-xmark xmarkIcon"></i>
         </div>
         <div className="badge-container">
           <div className="expenseBadge personalBadge">
-            <p>Personal:</p>
+            <p>Personal</p>
             <p>${formatNumber(budgetContextData.personalBalance)}</p>
           </div>
           <div className="expenseBadge savingsBadge">
-            <p>Savings:</p>
+            <p>Savings</p>
             <p>${formatNumber(budgetContextData.savings)}</p>
           </div>
         </div>
         <form className="expense-form" onSubmit={handleExpenseUpdate}>
           <p>Name: {expenseName.value}</p>
 
-          {currentAmmount.errorMessage && <p>{currentAmmount.errorMessage}</p>}
+          {currentAmmount.errorMessage && (
+            <p className="form-error-msg">{currentAmmount.errorMessage}</p>
+          )}
           <label className="expenseLabel">
             Current Ammount: $
             <input
@@ -87,7 +103,9 @@ const UpdateExpense = ({
             />
           </label>
 
-          {maxAmmount.errorMessage && <p>{maxAmmount.errorMessage}</p>}
+          {maxAmmount.errorMessage && (
+            <p className="form-error-msg">{maxAmmount.errorMessage}</p>
+          )}
           <label className="expenseLabel">
             Max Ammount: $
             <input
@@ -113,19 +131,25 @@ const UpdateExpense = ({
                 dispatch={dispatch}
                 handleColor={updateColor}
                 currentColor={color.value}
-                color={"#EE1E5F"}
+                color={"#333333"}
               />
               <Color
                 dispatch={dispatch}
                 handleColor={updateColor}
                 currentColor={color.value}
-                color={"#FFC727"}
+                color={"#d00000"}
               />
               <Color
                 dispatch={dispatch}
                 handleColor={updateColor}
                 currentColor={color.value}
-                color={"#1DE98B"}
+                color={"#4c956c"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={updateColor}
+                currentColor={color.value}
+                color={"#1982c4"}
               />
               <Color
                 dispatch={dispatch}
@@ -133,20 +157,22 @@ const UpdateExpense = ({
                 currentColor={color.value}
                 color={"#9747FF"}
               />
-              <Color
-                dispatch={dispatch}
-                handleColor={updateColor}
-                currentColor={color.value}
-                color={"#0091EA"}
-              />
             </div>
           </div>
 
           <div className="expense-btn-container">
-            <button className="expenseBtn" type="button" onClick={closeModal}>
+            <button
+              className="expenseBtn danger"
+              type="button"
+              onClick={closeModal}
+            >
               Cancel
             </button>
-            <button className="expenseBtn" type="submit">
+            <button
+              className="expenseBtn action"
+              disabled={updatedExpense.errors.length === 0 ? false : true}
+              type="submit"
+            >
               Update
             </button>
           </div>

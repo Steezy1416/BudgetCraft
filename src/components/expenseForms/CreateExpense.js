@@ -25,6 +25,11 @@ const CreateExpense = ({
       value: e.target.value,
       totalBalance: budgetContextData.totalBalance,
     });
+    dispatch({
+      type: "changeMaxAmmount",
+      value: expenseForm.maxAmmount.value,
+      totalBalance: budgetContextData.totalBalance,
+    });
   };
 
   const handleMaxAmmount = (e) => {
@@ -62,11 +67,15 @@ const CreateExpense = ({
       style={{ display: modalState.isModalOpen ? "block" : "none" }}
     >
       <div
-        style={{ backgroundColor: `${color.value}` }}
+        style={{
+          backgroundColor: `${color.value}`,
+          color: `${color.value === "#ffffff" ? "black" : "#ced4da"}`,
+        }}
         className="expenseModal"
       >
         <div className="expenseModalHeader">
           <h2>Create Expense</h2>
+          <i onClick={closeModal} className="fa-solid fa-xmark xmarkIcon"></i>
         </div>
         <div className="badge-container">
           <div className="expenseBadge personalBadge">
@@ -137,19 +146,25 @@ const CreateExpense = ({
                 dispatch={dispatch}
                 handleColor={handleColor}
                 currentColor={color.value}
-                color={"#EE1E5F"}
+                color={"#333333"}
               />
               <Color
                 dispatch={dispatch}
                 handleColor={handleColor}
                 currentColor={color.value}
-                color={"#FFC727"}
+                color={"#d00000"}
               />
               <Color
                 dispatch={dispatch}
                 handleColor={handleColor}
                 currentColor={color.value}
-                color={"#1DE98B"}
+                color={"#4c956c"}
+              />
+              <Color
+                dispatch={dispatch}
+                handleColor={handleColor}
+                currentColor={color.value}
+                color={"#1982c4"}
               />
               <Color
                 dispatch={dispatch}
@@ -157,21 +172,19 @@ const CreateExpense = ({
                 currentColor={color.value}
                 color={"#9747FF"}
               />
-              <Color
-                dispatch={dispatch}
-                handleColor={handleColor}
-                currentColor={color.value}
-                color={"#0091EA"}
-              />
             </div>
           </div>
 
           <div className="expense-btn-container">
-            <button className="expenseBtn" type="button" onClick={closeModal}>
+            <button
+              className="expenseBtn danger"
+              type="button"
+              onClick={closeModal}
+            >
               Cancel
             </button>
             <button
-              className="expenseBtn"
+              className="expenseBtn action"
               disabled={expenseForm.errors.length === 0 ? false : true}
               type="submit"
             >

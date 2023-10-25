@@ -121,12 +121,13 @@ const TransactionPage = () => {
           )}
         </div>
 
-        <input
+        <button
           className="form-btn"
           disabled={errors.length === 0 ? false : true}
           type="submit"
-          value={"Complete"}
-        />
+        >
+          Complete
+        </button>
       </form>
     </div>
   );

@@ -540,8 +540,8 @@ input[type="radio"]:checked + .radio-circle {
   background-color: white;
 }
 
-.ammount-input-box:focus,
-.memo-textarea:focus {
+input:focus,
+textarea:focus {
   outline: 3px;
   outline-color: #c77dff;
   outline-style: solid;
@@ -558,7 +558,7 @@ input[type="radio"]:checked + .radio-circle {
   font-weight: 500;
 }
 
-.form-btn:disabled {
+button:disabled {
   opacity: 0.5;
 }
 
@@ -679,6 +679,14 @@ input[type="radio"]:checked + .radio-circle {
   background-color: darkgray;
   width: 100%;
   margin: 0 2rem;
+  position: relative;
+}
+
+.outerPercentage {
+  position: absolute;
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .innerProgressBar {
@@ -728,6 +736,14 @@ input[type="radio"]:checked + .radio-circle {
 .expenseModalHeader {
   padding: 0.5rem 0;
   border-bottom: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.xmarkIcon {
+  font-size: 2rem;
 }
 
 .badge-container {
@@ -818,4 +834,14 @@ input[type="radio"]:checked + .radio-circle {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.danger {
+  background-color: red;
+  color: white;
+}
+
+.action {
+  background-color: #ced4da;
+  color: black;
 }

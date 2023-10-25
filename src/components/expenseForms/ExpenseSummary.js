@@ -29,20 +29,32 @@ const ExpenseSummary = ({
       className="expenseModalContainer"
       style={{ display: modalState.isModalOpen ? "block" : "none" }}
     >
-      <div style={{ backgroundColor: color.value }} className="expenseModal">
+      <div
+        style={{
+          backgroundColor: `${color.value}`,
+          color: `${color.value === "#ffffff" ? "black" : "#ced4da"}`,
+        }}
+        className="expenseModal"
+      >
         <div className="expenseModalHeader">
-          <h2>Expense</h2>
+          <h2>Expense Summary</h2>
+          <i onClick={closeModal} className="fa-solid fa-xmark xmarkIcon"></i>
         </div>
-        <div className="expense-summary-container">
+        <div
+          style={{
+            color: `${color.value === "#ffffff" ? "black" : "#ced4da"}`,
+          }}
+          className="expense-summary-container"
+        >
           <p>Name: {expenseName.value}</p>
           <p>Current Ammount: ${formatNumber(currentAmmount.value)}</p>
           <p>Max Ammount: ${formatNumber(maxAmmount.value)}</p>
         </div>
         <div className="expense-btn-container">
-          <button className="expenseBtn" onClick={deleteExpense}>
+          <button className="expenseBtn danger" onClick={deleteExpense}>
             Delete
           </button>
-          <button className="expenseBtn" onClick={handleUpdateClick}>
+          <button className="expenseBtn action" onClick={handleUpdateClick}>
             Update
           </button>
         </div>

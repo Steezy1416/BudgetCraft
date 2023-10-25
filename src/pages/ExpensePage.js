@@ -62,7 +62,10 @@ const ExpensePage = () => {
 
             return (
               <div
-                style={{ backgroundColor: `${color.value}` }}
+                style={{
+                  backgroundColor: `${color.value}`,
+                  color: `${color.value === "#ffffff" ? "black" : "#ced4da"}`,
+                }}
                 className="expense"
                 onClick={() => handleExpenseClick(expense)}
                 key={expenseName.value}
@@ -70,13 +73,19 @@ const ExpensePage = () => {
                 <p className="expenseName">{expenseName.value}</p>
                 <p>${`${formatedCurrentAmmount} / $${formatedMaxAmmount}`}</p>
                 <div className="outerProgressBar">
+                  {currentAmmountPercentage < 10 && (
+                    <p className="outerPercentage">
+                      ${currentAmmountPercentage}%
+                    </p>
+                  )}
                   <div
                     style={{
                       width: `${currentAmmountPercentage}%`,
                     }}
                     className="innerProgressBar"
                   >
-                    {currentAmmountPercentage}%
+                    {currentAmmountPercentage >= 10 &&
+                      `${currentAmmountPercentage}%`}
                   </div>
                 </div>
               </div>

@@ -69,13 +69,12 @@ export const expenseReducer = (state, action) => {
           ...state,
           currentAmmount: {
             value: ammount,
-            errorMessage: "Ammount exceeds max ammount",
+            errorMessage: "",
           },
           errors: [...state.errors, "currentAmmount"],
         };
       }
-
-      if (ammount + totalBalance > maxAmmount) {
+      else if (ammount + totalBalance > maxAmmount) {
         return {
           ...state,
           currentAmmount: {
@@ -106,7 +105,7 @@ export const expenseReducer = (state, action) => {
         return {
           ...state,
           currentAmmount: {
-            value: parseFloat(action.value),
+            value: ammount,
             errorMessage: "",
           },
           errors: state.errors.filter((error) => error !== "currentAmmount"),
@@ -118,9 +117,19 @@ export const expenseReducer = (state, action) => {
         ? ""
         : parseFloat(action.value);
       const totalBalance = action.totalBalance;
+
       const maxAmmount = 100000000;
 
-      if (ammount + totalBalance > maxAmmount) {
+      if (ammount < state.currentAmmount.value) {
+        return {
+          ...state,
+          maxAmmount: {
+            value: ammount,
+            errorMessage: "Max Ammount cannot be less than current ammount",
+          },
+          errors: [...state.errors, "maxAmmount"],
+        };
+      } else if (ammount + totalBalance > maxAmmount) {
         return {
           ...state,
           maxAmmount: {
@@ -151,7 +160,7 @@ export const expenseReducer = (state, action) => {
         return {
           ...state,
           maxAmmount: {
-            value: parseFloat(action.value),
+            value: ammount,
             errorMessage: "",
           },
           errors: state.errors.filter((error) => error !== "maxAmmount"),
