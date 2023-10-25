@@ -47,6 +47,7 @@ const TransactionPage = () => {
       type: transactionType.value,
       category: categoryType.value,
       ammount: ammount.value,
+      notes: memo.value
     });
 
     dispatch({

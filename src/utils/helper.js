@@ -18,7 +18,7 @@ export const GetPercentage = (totalBalance, categoryTotal) => {
 export const GetTotalBalance = (expensesTotal, personalBalance, savings) => {
   const total = expensesTotal + personalBalance + savings;
   const formatedTotal = total;
-  return parseFloat(formatedTotal).toFixed(2);
+  return parseFloat(formatedTotal.toFixed(2));
 };
 
 export const formatNumber = (number) => {

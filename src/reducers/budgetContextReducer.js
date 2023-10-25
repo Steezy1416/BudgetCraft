@@ -13,17 +13,43 @@ export const initialBudgetContext =
   JSON.parse(localStorage.getItem("budgetContext")) || emptyBudget;
 
 export const budgetReducer = (budget, action) => {
-  const { expensesTotal, savings, personalBalance } = budget;
+  const { totalBalance, expensesTotal, savings, personalBalance, history } =
+    budget;
 
   switch (action.type) {
     case "deposit": {
       if (action.category === "personal balance") {
         return {
           ...budget,
-          totalBalance: GetTotalBalance(expensesTotal, action.ammount, savings),
+          totalBalance: GetTotalBalance(
+            expensesTotal,
+            parseFloat((action.ammount + personalBalance).toFixed(2)),
+            savings
+          ),
           personalBalance: parseFloat(
             (action.ammount + personalBalance).toFixed(2)
           ),
+          history: [
+            ...history,
+            {
+              entryType: "deposit",
+              entryMessage: "Personal Deposit",
+              entryNotes: action.notes,
+              entryAmmount: action.ammount,
+              totalBalance: GetTotalBalance(
+                expensesTotal,
+                parseFloat((action.ammount + personalBalance).toFixed(2)),
+                savings
+              ),
+              expensesTotal: expensesTotal,
+              personalBalance: parseFloat(
+                (action.ammount + personalBalance).toFixed(2)
+              ),
+              savings: savings,
+              expenses: [...budget.expenses],
+              previousTotalBalance: totalBalance,
+            },
+          ],
         };
       } else if (action.category === "savings") {
         return {
@@ -31,9 +57,28 @@ export const budgetReducer = (budget, action) => {
           totalBalance: GetTotalBalance(
             expensesTotal,
             personalBalance,
-            action.ammount
+            parseFloat((action.ammount + savings).toFixed(2))
           ),
           savings: parseFloat((action.ammount + savings).toFixed(2)),
+          history: [
+            ...history,
+            {
+              entryType: "deposit",
+              entryMessage: "Savings Deposit",
+              entryNotes: action.notes,
+              entryAmmount: action.ammount,
+              totalBalance: GetTotalBalance(
+                expensesTotal,
+                personalBalance,
+                parseFloat((action.ammount + savings).toFixed(2))
+              ),
+              expensesTotal: expensesTotal,
+              personalBalance: personalBalance,
+              savings: parseFloat((action.ammount + savings).toFixed(2)),
+              expenses: [...budget.expenses],
+              previousTotalBalance: totalBalance,
+            },
+          ],
         };
       }
     }
@@ -42,10 +87,35 @@ export const budgetReducer = (budget, action) => {
       if (action.category === "personal balance") {
         return {
           ...budget,
-          totalBalance: GetTotalBalance(expensesTotal, action.ammount, savings),
+          totalBalance: GetTotalBalance(
+            expensesTotal,
+            parseFloat((personalBalance - action.ammount).toFixed(2)),
+            savings
+          ),
           personalBalance: parseFloat(
             (personalBalance - action.ammount).toFixed(2)
           ),
+          history: [
+            ...history,
+            {
+              entryType: "withdrawal",
+              entryMessage: "Personal Withdrawal",
+              entryNotes: action.notes,
+              entryAmmount: action.ammount,
+              totalBalance: GetTotalBalance(
+                expensesTotal,
+                parseFloat((personalBalance - action.ammount).toFixed(2)),
+                savings
+              ),
+              expensesTotal: expensesTotal,
+              personalBalance: parseFloat(
+                (personalBalance - action.ammount).toFixed(2)
+              ),
+              savings: savings,
+              expenses: [...budget.expenses],
+              previousTotalBalance: totalBalance,
+            },
+          ],
         };
       } else if (action.category === "savings") {
         return {
@@ -53,9 +123,28 @@ export const budgetReducer = (budget, action) => {
           totalBalance: GetTotalBalance(
             expensesTotal,
             personalBalance,
-            action.ammount
+            parseFloat((savings - action.ammount).toFixed(2))
           ),
           savings: parseFloat((savings - action.ammount).toFixed(2)),
+          history: [
+            ...history,
+            {
+              entryType: "withdrawal",
+              entryMessage: "Savings Withdrawal",
+              entryNotes: action.notes,
+              entryAmmount: action.ammount,
+              totalBalance: GetTotalBalance(
+                expensesTotal,
+                personalBalance,
+                parseFloat((savings - action.ammount).toFixed(2))
+              ),
+              expensesTotal: expensesTotal,
+              personalBalance: personalBalance,
+              savings: parseFloat((savings - action.ammount).toFixed(2)),
+              expenses: [...budget.expenses],
+              previousTotalBalance: totalBalance,
+            },
+          ],
         };
       }
     }
@@ -63,8 +152,34 @@ export const budgetReducer = (budget, action) => {
     case "addExpense": {
       return {
         ...budget,
+        totalBalance: GetTotalBalance(
+          GetExpensesTotal([...budget.expenses, action.expense]),
+          personalBalance,
+          savings
+        ),
         expenses: [...budget.expenses, action.expense],
         expensesTotal: GetExpensesTotal([...budget.expenses, action.expense]),
+        history: [
+          ...history,
+          {
+            entryType: "expense",
+            entryMessage: `Created ${action.expense.expenseName.value} Expense`,
+            entryAmmount: action.expense.currentAmmount.value,
+            totalBalance: GetTotalBalance(
+              GetExpensesTotal([...budget.expenses, action.expense]),
+              personalBalance,
+              savings
+            ),
+            expensesTotal: GetExpensesTotal([
+              ...budget.expenses,
+              action.expense,
+            ]),
+            personalBalance: personalBalance,
+            savings: savings,
+            expenses: [...budget.expenses, action.expense],
+            previousTotalBalance: totalBalance,
+          },
+        ],
       };
     }
     case "updateExpense": {
@@ -79,8 +194,31 @@ export const budgetReducer = (budget, action) => {
 
       return {
         ...budget,
+        totalBalance: GetTotalBalance(
+          GetExpensesTotal(updatedExpenses),
+          personalBalance,
+          savings
+        ),
         expenses: updatedExpenses,
         expensesTotal: GetExpensesTotal(updatedExpenses),
+        history: [
+          ...history,
+          {
+            entryType: "expense",
+            entryMessage: `Updated ${action.expense.expenseName.value} Expense`,
+            entryAmmount: updatedExpense.currentAmmount.value,
+            totalBalance: GetTotalBalance(
+              GetExpensesTotal(updatedExpenses),
+              personalBalance,
+              savings
+            ),
+            expensesTotal: GetExpensesTotal(updatedExpenses),
+            personalBalance: personalBalance,
+            savings: savings,
+            expenses: updatedExpenses,
+            previousTotalBalance: totalBalance,
+          },
+        ],
       };
     }
 
@@ -94,6 +232,24 @@ export const budgetReducer = (budget, action) => {
         ...budget,
         expenses: updatedExpenses,
         expensesTotal: GetExpensesTotal(updatedExpenses),
+        history: [
+          ...history,
+          {
+            entryType: "expense",
+            entryMessage: `Deleted ${action.expense.expenseName.value} Expense`,
+            entryAmmount: expenseToBeDeleted.currentAmmount.value,
+            totalBalance: GetTotalBalance(
+              GetExpensesTotal(updatedExpenses),
+              personalBalance,
+              savings
+            ),
+            expensesTotal: GetExpensesTotal(updatedExpenses),
+            personalBalance: personalBalance,
+            savings: savings,
+            expenses: updatedExpenses,
+            previousTotalBalance: totalBalance,
+          },
+        ],
       };
     }
     /* falls through */
