@@ -32,6 +32,7 @@ export const budgetReducer = (budget, action) => {
           history: [
             ...history,
             {
+              entryDate: new Date().toLocaleDateString() ,
               entryType: "deposit",
               entryMessage: "Personal Deposit",
               entryNotes: action.notes,
@@ -63,6 +64,7 @@ export const budgetReducer = (budget, action) => {
           history: [
             ...history,
             {
+              entryDate: new Date().toLocaleDateString() ,
               entryType: "deposit",
               entryMessage: "Savings Deposit",
               entryNotes: action.notes,
@@ -98,6 +100,7 @@ export const budgetReducer = (budget, action) => {
           history: [
             ...history,
             {
+              entryDate: new Date().toLocaleDateString() ,
               entryType: "withdrawal",
               entryMessage: "Personal Withdrawal",
               entryNotes: action.notes,
@@ -129,6 +132,7 @@ export const budgetReducer = (budget, action) => {
           history: [
             ...history,
             {
+              entryDate: new Date().toLocaleDateString() ,
               entryType: "withdrawal",
               entryMessage: "Savings Withdrawal",
               entryNotes: action.notes,
@@ -162,6 +166,7 @@ export const budgetReducer = (budget, action) => {
         history: [
           ...history,
           {
+            entryDate: new Date().toLocaleDateString() ,
             entryType: "expense",
             entryMessage: `Created ${action.expense.expenseName.value} Expense`,
             entryAmmount: action.expense.currentAmmount.value,
@@ -204,6 +209,7 @@ export const budgetReducer = (budget, action) => {
         history: [
           ...history,
           {
+            entryDate: new Date().toLocaleDateString() ,
             entryType: "expense",
             entryMessage: `Updated ${action.expense.expenseName.value} Expense`,
             entryAmmount: updatedExpense.currentAmmount.value,
@@ -235,6 +241,7 @@ export const budgetReducer = (budget, action) => {
         history: [
           ...history,
           {
+            entryDate: new Date().toLocaleDateString() ,
             entryType: "expense",
             entryMessage: `Deleted ${action.expense.expenseName.value} Expense`,
             entryAmmount: expenseToBeDeleted.currentAmmount.value,

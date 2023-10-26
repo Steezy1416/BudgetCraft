@@ -1,17 +1,20 @@
-const HistoryEntry = ({historyEntry}) => {
+const HistoryEntry = ({ historyEntry }) => {
+  const { entryDate, entryType, entryMessage, entryNotes, entryAmmount } =
+    historyEntry;
 
-    const { entryType, entryMessage, entryNotes, entryAmmount } = historyEntry;
+  return (
+    <div>
+      <div>
+        <p>{entryDate}</p>
+        <p>{entryMessage}</p>
+        <p>{entryNotes}</p>
+      </div>
+      <p>
+        {entryType === "deposit" ? "+" : entryType === "withdrawal" ? "-" : ""}$
+        {entryAmmount}
+      </p>
+    </div>
+  );
+};
 
-    return (
-        <div>
-            <div>
-                <p>{entryMessage}</p>
-                <p>{entryNotes}</p>
-            </div>
-            <p>{entryAmmount}</p>
-        </div>
-    )
-}
-
-
-export default HistoryEntry
+export default HistoryEntry;
