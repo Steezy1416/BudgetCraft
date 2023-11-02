@@ -1,90 +1,55 @@
-import { useBudget, useBudgetDispatch } from "../BudgetContext";
+import { useState } from "react";
+import { useBudget } from "../BudgetContext";
 import HistoryEntry from "../components/HistoryEntry";
+import { sortHistory } from "../utils/helper";
+import HistoryModal from "../components/HistoryModal";
+import HistoryEntryDateBlock from "../components/HistoryEntryDateBlock";
 
 const HistoryPage = () => {
   const { history } = useBudget();
 
-  const reversedHistory = history.slice().reverse();
+  const individualDays = sortHistory(history);
 
-  console.log(reversedHistory);
+  const [selectedEntry, setSelectedEntry] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const entryDates = reversedHistory.map((entry) => entry.entryDate);
-
-  const uniqueDates = entryDates.filter(
-    (entryDate, index) => entryDates.indexOf(entryDate) === index
-  );
-
-  console.log(entryDates);
-  console.log(uniqueDates);
-
-  let seperatedDays = [];
-  for (let i = 0; i < uniqueDates.length; i++) {
-    const entries = reversedHistory.filter(
-      (entry) => entry.entryDate === uniqueDates[i]
-    );
-    seperatedDays.push({
-      date: uniqueDates[i],
-      entries,
-    });
-  }
-
-  console.log(seperatedDays);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="historyPageContainer">
-      <h1>History</h1>
+      <div
+        onClick={closeModal}
+        className={isModalOpen ? "historyOverlay" : ""}
+      ></div>
+      {isModalOpen ? (
+        <>
+          <HistoryModal selectedEntry={selectedEntry} closeModal={closeModal} />
+        </>
+      ) : (
+        <>
+          <h1>History</h1>
 
-      {seperatedDays.map((day, index) => {
-        return (
-          <HistoryEntryBlock
-            day={day.date}
-            seperatedDays={seperatedDays[index]}
-          />
-        );
-      })}
-    </div>
-  );
-};
-
-const HistoryEntryBlock = ({ day, seperatedDays }) => {
-  console.log(seperatedDays.entries);
-  const blockTitle = () => {
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-
-    if (day === today.toLocaleDateString()) {
-      return "Today";
-    } else if (day === yesterday.toLocaleDateString()) {
-      return "Yesterday";
-    } else {
-      return day;
-    }
-  };
-
-  return (
-    <div>
-      <h2>{blockTitle()}</h2>
-      {seperatedDays.entries.map((historyEntry) => {
-        console.log(historyEntry);
-        return <HistoryEntry historyEntry={historyEntry} />;
-      })}
+          {individualDays.length === 0 ? (
+            <p>You have no history</p>
+          ) : (
+            individualDays.map((day, index) => {
+              return (
+                <HistoryEntryDateBlock
+                  day={day.date}
+                  individualDays={individualDays[index]}
+                  openModal={openModal}
+                  closeModal={closeModal}
+                  isModalOpen={isModalOpen}
+                  setSelectedEntry={setSelectedEntry}
+                />
+              );
+            })
+          )}
+        </>
+      )}
     </div>
   );
 };
 
 export default HistoryPage;
-
-{
-  /* {history.length === 0 ? (
-        <p>You have no history</p>
-      ) : (
-        <div className="historyContainer">
-          {reversedHistory.map((historyEntry) => {
-            return (
-              <HistoryEntry historyEntry={historyEntry}/>
-            );
-          })}
-        </div>
-      )} */
-}

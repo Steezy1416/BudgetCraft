@@ -1,9 +1,21 @@
-const HistoryEntry = ({ historyEntry }) => {
+const HistoryEntry = ({
+  historyEntry,
+  openModal,
+  isModalOpen,
+  setSelectedEntry,
+}) => {
   const { entryDate, entryType, entryMessage, entryNotes, entryAmmount } =
     historyEntry;
 
-  return (
-    <div>
+  const handleEntrySelect = () => {
+    setSelectedEntry(historyEntry);
+    openModal();
+  };
+
+  return isModalOpen ? (
+    <></>
+  ) : (
+    <div onClick={handleEntrySelect}>
       <div>
         <p>{entryDate}</p>
         <p>{entryMessage}</p>

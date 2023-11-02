@@ -74,3 +74,26 @@ export const GetExpensesTotal = (expenses) => {
     return parseFloat(expensesTotal.reduce(getSum).toFixed(2));
   }
 };
+
+export const sortHistory = (history) => {
+  const reversedHistory = history.slice().reverse();
+
+  const entryDates = reversedHistory.map((entry) => entry.entryDate);
+
+  const uniqueEntryDates = entryDates.filter(
+    (entryDate, index) => entryDates.indexOf(entryDate) === index
+  );
+
+  let individualDays = [];
+  for (let i = 0; i < uniqueEntryDates.length; i++) {
+    const entries = reversedHistory.filter(
+      (entry) => entry.entryDate === uniqueEntryDates[i]
+    );
+    individualDays.push({
+      date: uniqueEntryDates[i],
+      entries,
+    });
+  }
+
+  return individualDays;
+};
