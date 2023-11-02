@@ -25,9 +25,10 @@ const HistoryEntryDateBlock = ({
   return (
     <div>
       <h2>{entryDate()}</h2>
-      {individualDays.entries.map((historyEntry) => {
+      {individualDays.entries.map((historyEntry, index) => {
         return (
           <HistoryEntry
+            key={`${historyEntry.entryDate}/${index}`}
             historyEntry={historyEntry}
             openModal={openModal}
             closeModal={closeModal}

@@ -18,8 +18,10 @@ export const budgetReducer = (budget, action) => {
 
   switch (action.type) {
     case "deposit": {
+      let currentBudgetState;
+
       if (action.category === "personal balance") {
-        return {
+        currentBudgetState = {
           ...budget,
           totalBalance: GetTotalBalance(
             expensesTotal,
@@ -32,7 +34,7 @@ export const budgetReducer = (budget, action) => {
           history: [
             ...history,
             {
-              entryDate: new Date().toLocaleDateString() ,
+              entryDate: new Date().toLocaleDateString(),
               entryType: "deposit",
               entryMessage: "Personal Deposit",
               entryNotes: action.notes,
@@ -53,7 +55,7 @@ export const budgetReducer = (budget, action) => {
           ],
         };
       } else if (action.category === "savings") {
-        return {
+        currentBudgetState = {
           ...budget,
           totalBalance: GetTotalBalance(
             expensesTotal,
@@ -64,7 +66,7 @@ export const budgetReducer = (budget, action) => {
           history: [
             ...history,
             {
-              entryDate: new Date().toLocaleDateString() ,
+              entryDate: new Date().toLocaleDateString(),
               entryType: "deposit",
               entryMessage: "Savings Deposit",
               entryNotes: action.notes,
@@ -83,11 +85,16 @@ export const budgetReducer = (budget, action) => {
           ],
         };
       }
+
+      localStorage.setItem("budgetContext", JSON.stringify(currentBudgetState));
+      return currentBudgetState;
     }
     /* falls through */
     case "withdrawal": {
+      let currentBudgetState;
+
       if (action.category === "personal balance") {
-        return {
+        currentBudgetState = {
           ...budget,
           totalBalance: GetTotalBalance(
             expensesTotal,
@@ -100,7 +107,7 @@ export const budgetReducer = (budget, action) => {
           history: [
             ...history,
             {
-              entryDate: new Date().toLocaleDateString() ,
+              entryDate: new Date().toLocaleDateString(),
               entryType: "withdrawal",
               entryMessage: "Personal Withdrawal",
               entryNotes: action.notes,
@@ -121,7 +128,7 @@ export const budgetReducer = (budget, action) => {
           ],
         };
       } else if (action.category === "savings") {
-        return {
+        currentBudgetState = {
           ...budget,
           totalBalance: GetTotalBalance(
             expensesTotal,
@@ -132,7 +139,7 @@ export const budgetReducer = (budget, action) => {
           history: [
             ...history,
             {
-              entryDate: new Date().toLocaleDateString() ,
+              entryDate: new Date().toLocaleDateString(),
               entryType: "withdrawal",
               entryMessage: "Savings Withdrawal",
               entryNotes: action.notes,
@@ -151,10 +158,13 @@ export const budgetReducer = (budget, action) => {
           ],
         };
       }
+
+      localStorage.setItem("budgetContext", JSON.stringify(currentBudgetState));
+      return currentBudgetState;
     }
     /* falls through */
     case "addExpense": {
-      return {
+      const currentBudgetState = {
         ...budget,
         totalBalance: GetTotalBalance(
           GetExpensesTotal([...budget.expenses, action.expense]),
@@ -166,7 +176,7 @@ export const budgetReducer = (budget, action) => {
         history: [
           ...history,
           {
-            entryDate: new Date().toLocaleDateString() ,
+            entryDate: new Date().toLocaleDateString(),
             entryType: "expense",
             entryMessage: `Created ${action.expense.expenseName.value} Expense`,
             entryAmmount: action.expense.currentAmmount.value,
@@ -186,6 +196,8 @@ export const budgetReducer = (budget, action) => {
           },
         ],
       };
+      localStorage.setItem("budgetContext", JSON.stringify(currentBudgetState));
+      return currentBudgetState;
     }
     case "updateExpense": {
       const updatedExpense = action.expense;
@@ -197,7 +209,7 @@ export const budgetReducer = (budget, action) => {
         }
       });
 
-      return {
+      const currentBudgetState = {
         ...budget,
         totalBalance: GetTotalBalance(
           GetExpensesTotal(updatedExpenses),
@@ -209,7 +221,7 @@ export const budgetReducer = (budget, action) => {
         history: [
           ...history,
           {
-            entryDate: new Date().toLocaleDateString() ,
+            entryDate: new Date().toLocaleDateString(),
             entryType: "expense",
             entryMessage: `Updated ${action.expense.expenseName.value} Expense`,
             entryAmmount: updatedExpense.currentAmmount.value,
@@ -226,6 +238,9 @@ export const budgetReducer = (budget, action) => {
           },
         ],
       };
+
+      localStorage.setItem("budgetContext", JSON.stringify(currentBudgetState));
+      return currentBudgetState;
     }
 
     case "deleteExpense": {
@@ -234,14 +249,15 @@ export const budgetReducer = (budget, action) => {
         (expense) =>
           expense.expenseName.value !== expenseToBeDeleted.expenseName.value
       );
-      return {
+
+      const currentBudgetState = {
         ...budget,
         expenses: updatedExpenses,
         expensesTotal: GetExpensesTotal(updatedExpenses),
         history: [
           ...history,
           {
-            entryDate: new Date().toLocaleDateString() ,
+            entryDate: new Date().toLocaleDateString(),
             entryType: "expense",
             entryMessage: `Deleted ${action.expense.expenseName.value} Expense`,
             entryAmmount: expenseToBeDeleted.currentAmmount.value,
@@ -258,6 +274,18 @@ export const budgetReducer = (budget, action) => {
           },
         ],
       };
+      localStorage.setItem("budgetContext", JSON.stringify(currentBudgetState));
+      return currentBudgetState;
+    }
+
+    case "clearHistory": {
+      const currentBudgetState = {
+        ...budget,
+        history: [],
+      };
+
+      localStorage.setItem("budgetContext", JSON.stringify(currentBudgetState));
+      return currentBudgetState;
     }
     /* falls through */
     default: {

@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useBudget } from "../BudgetContext";
-import HistoryEntry from "../components/HistoryEntry";
+import { useBudget, useBudgetDispatch } from "../BudgetContext";
 import { sortHistory } from "../utils/helper";
 import HistoryModal from "../components/HistoryModal";
 import HistoryEntryDateBlock from "../components/HistoryEntryDateBlock";
@@ -10,11 +9,19 @@ const HistoryPage = () => {
 
   const individualDays = sortHistory(history);
 
+  const budgetContextDispatch = useBudgetDispatch()
+
   const [selectedEntry, setSelectedEntry] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const clearHistory = () => {
+    budgetContextDispatch({
+      type: "clearHistory"
+    })
+  }
 
   return (
     <div className="historyPageContainer">
@@ -28,7 +35,10 @@ const HistoryPage = () => {
         </>
       ) : (
         <>
+          <div>
           <h1>History</h1>
+          <button onClick={clearHistory}>Clear History</button>
+          </div>
 
           {individualDays.length === 0 ? (
             <p>You have no history</p>
@@ -36,6 +46,7 @@ const HistoryPage = () => {
             individualDays.map((day, index) => {
               return (
                 <HistoryEntryDateBlock
+                  key={day.date}
                   day={day.date}
                   individualDays={individualDays[index]}
                   openModal={openModal}

@@ -1,3 +1,5 @@
+import { formatNumber } from "../utils/helper";
+
 const HistoryModal = ({ selectedEntry, closeModal }) => {
   const {
     entryDate,
@@ -22,27 +24,28 @@ const HistoryModal = ({ selectedEntry, closeModal }) => {
       <h2>{entryMessage}</h2>
       <p>
         {entryType === "deposit" ? "+" : entryType === "withdrawal" ? "-" : ""}$
-        {entryAmmount}
+        {formatNumber(entryAmmount)}
       </p>
-      <p>Personal Balance: ${personalBalance}</p>
-      <p>Savings: ${savings}</p>
+      <p>Personal Balance: ${formatNumber(personalBalance)}</p>
+      <p>Savings: ${formatNumber(savings)}</p>
       {expenses.length > 0 && (
         <div>
           <p>Expenses:</p>
           {expenses.map((expense) => {
             return (
               <div>
-                {expense.expenseName.value}: ${expense.currentAmmount.value}
+                {expense.expenseName.value}: $
+                {formatNumber(expense.currentAmmount.value)}
               </div>
             );
           })}
-          <p>Expenses Total: ${expensesTotal}</p>
+          <p>Expenses Total: ${formatNumber(expensesTotal)}</p>
         </div>
       )}
       {entryNotes && <p>Notes: {entryNotes}</p>}
 
-      <p>Prev Balance: ${previousTotalBalance}</p>
-      <p>Available Balance: ${totalBalance}</p>
+      <p>Prev Balance: ${formatNumber(previousTotalBalance)}</p>
+      <p>Available Balance: ${formatNumber(totalBalance)}</p>
     </div>
   );
 };

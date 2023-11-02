@@ -1,3 +1,5 @@
+import { formatNumber } from "../utils/helper";
+
 const HistoryEntry = ({
   historyEntry,
   openModal,
@@ -23,7 +25,7 @@ const HistoryEntry = ({
       </div>
       <p>
         {entryType === "deposit" ? "+" : entryType === "withdrawal" ? "-" : ""}$
-        {entryAmmount}
+        {formatNumber(entryAmmount)}
       </p>
     </div>
   );
