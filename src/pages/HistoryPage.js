@@ -9,7 +9,7 @@ const HistoryPage = () => {
 
   const individualDays = sortHistory(history);
 
-  const budgetContextDispatch = useBudgetDispatch()
+  const budgetContextDispatch = useBudgetDispatch();
 
   const [selectedEntry, setSelectedEntry] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,9 +19,9 @@ const HistoryPage = () => {
 
   const clearHistory = () => {
     budgetContextDispatch({
-      type: "clearHistory"
-    })
-  }
+      type: "clearHistory",
+    });
+  };
 
   return (
     <div className="historyPageContainer">
@@ -35,13 +35,13 @@ const HistoryPage = () => {
         </>
       ) : (
         <>
-          <div>
-          <h1>History</h1>
-          <button onClick={clearHistory}>Clear History</button>
+          <div className="historyHeader">
+            <h1>History</h1>
+            <button className="clearHistoryBtn danger" onClick={clearHistory}>Clear History</button>
           </div>
 
           {individualDays.length === 0 ? (
-            <p>You have no history</p>
+            <p className="noHistoryMessage">You have no history</p>
           ) : (
             individualDays.map((day, index) => {
               return (

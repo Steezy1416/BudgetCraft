@@ -23,20 +23,22 @@ const HistoryEntryDateBlock = ({
   };
 
   return (
-    <div>
-      <h2>{entryDate()}</h2>
-      {individualDays.entries.map((historyEntry, index) => {
-        return (
-          <HistoryEntry
-            key={`${historyEntry.entryDate}/${index}`}
-            historyEntry={historyEntry}
-            openModal={openModal}
-            closeModal={closeModal}
-            isModalOpen={isModalOpen}
-            setSelectedEntry={setSelectedEntry}
-          />
-        );
-      })}
+    <div className="entryDateBlock">
+      <h2 className="entryDate">{entryDate()}</h2>
+      <div className="entryDateBlockContainer">
+        {individualDays.entries.map((historyEntry, index) => {
+          return (
+            <HistoryEntry
+              key={`${historyEntry.entryDate}/${index}`}
+              historyEntry={historyEntry}
+              openModal={openModal}
+              closeModal={closeModal}
+              isModalOpen={isModalOpen}
+              setSelectedEntry={setSelectedEntry}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
